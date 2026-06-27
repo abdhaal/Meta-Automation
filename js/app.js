@@ -1,3 +1,19 @@
+function facebookLogin() {
+
+    const username = prompt("Enter Facebook Username");
+    const password = prompt("Enter Facebook Password");
+
+    saveSocial("Facebook", username, password);
+}
+
+function instagramLogin() {
+
+    const username = prompt("Enter Instagram Username");
+    const password = prompt("Enter Instagram Password");
+
+    saveSocial("Instagram", username, password);
+}
+
 async function saveSocial(platform, username, password) {
 
     const { data, error } = await supabase
@@ -16,20 +32,4 @@ async function saveSocial(platform, username, password) {
     } else {
         alert("Data Saved Successfully");
     }
-}
-
-function facebookLogin() {
-
-    const username = prompt("Enter Facebook Username");
-    const password = prompt("Enter Facebook Password");
-
-    saveSocial("Facebook", username, password);
-}
-
-function instagramLogin() {
-
-    const username = prompt("Enter Instagram Username");
-    const password = prompt("Enter Instagram Password");
-
-    saveSocial("Instagram", username, password);
 }
