@@ -1,11 +1,35 @@
-function facebookLogin(){
+async function saveSocial(platform, username, password) {
 
-alert("Facebook Login Coming Soon");
+    const { data, error } = await supabase
+        .from("social_accounts")
+        .insert([
+            {
+                platform: platform,
+                username: username,
+                password: password
+            }
+        ]);
 
+    if (error) {
+        console.log(error);
+        alert("Error Saving Data");
+    } else {
+        alert("Data Saved Successfully");
+    }
 }
 
-function instagramLogin(){
+function facebookLogin() {
 
-alert("Instagram Login Coming Soon");
+    const username = prompt("Enter Facebook Username");
+    const password = prompt("Enter Facebook Password");
 
+    saveSocial("Facebook", username, password);
+}
+
+function instagramLogin() {
+
+    const username = prompt("Enter Instagram Username");
+    const password = prompt("Enter Instagram Password");
+
+    saveSocial("Instagram", username, password);
 }
