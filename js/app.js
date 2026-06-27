@@ -1,45 +1,63 @@
 // js/app.js
 
-// Facebook Login
+// Facebook Login Function
 async function facebookLogin() {
-  // Function kulla variable fetch pannunga inside call trigger
-  const supabase = window.supabaseClient; 
-  
-  if (!supabase) {
-    alert("Supabase client is not initialized yet!");
-    return;
-  }
+    const supabase = window.supabaseClient;
+    if (!supabase) return;
 
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "facebook",
-    options: {
-      redirectTo: "https://abdhaal.github.io/Meta-Automation/"
+    const { error } = await supabase.auth.signInWithOAuth({
+        provider: "facebook",
+        options: {
+            redirectTo: "https://abdhaal.github.io/Meta-Automation/"
+        }
+    });
+
+    if (error) {
+        console.error(error);
+        alert("Facebook Login Error: " + error.message);
     }
-  });
-
-  if (error) {
-    console.error(error);
-    alert(error.message);
-  }
 }
 
-// Check user logic
+// Instagram Login Function
+async function instagramLogin() {
+    const supabase = window.supabaseClient;
+    if (!supabase) return;
+
+    const { error } = await supabase.auth.signInWithOAuth({
+        provider: "facebook",
+        options: {
+            redirectTo: "https://abdhaal.github.io/Meta-Automation/"
+        }
+    });
+
+    if (error) {
+        console.error(error);
+        alert("Instagram Login Error: " + error.message);
+    }
+}
+
+// Check logged-in user state and handle redirect
 async function checkUser() {
     const supabase = window.supabaseClient;
     if (!supabase) return;
 
     const { data, error } = await supabase.auth.getUser();
+
     if (error) {
-        console.log(error);
+        console.log("No user session active.");
         return;
     }
-    if (data.user) {
+
+    if (data && data.user) {
         console.log("Logged in user:", data.user);
-        alert("Login Success\n\nName: " + (data.user.user_metadata.full_name || "") + "\nEmail: " + (data.user.email || ""));
+        
+        // Success alert kaatuna appram instant-ah automatic dashboard movement
+        alert("Welcome " + (data.user.user_metadata.full_name || "User"));
+        window.location.href = "dashboard.html"; 
     }
 }
 
-// HTML fully load aana piragu user ah check panna sollurom
+// Check status on page load
 window.addEventListener('DOMContentLoaded', () => {
     checkUser();
 });
