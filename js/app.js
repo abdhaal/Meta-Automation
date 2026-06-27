@@ -17,20 +17,29 @@ function instagramLogin() {
 
 async function saveSocial(platform, username, password) {
 
-    const { data, error } = await supabase
-        .from("social_accounts")
-        .insert([
-            {
-                platform: platform,
-                username: username,
-                password: password
-            }
-        ]);
+    alert("saveSocial Started");
 
-    if (error) {
-        console.log(error);
-        alert("Error Saving Data");
-    } else {
-        alert("Data Saved Successfully");
+    try {
+
+        const { data, error } = await supabase
+            .from("social_accounts")
+            .insert([
+                {
+                    platform: platform,
+                    username: username,
+                    password: password
+                }
+            ]);
+
+        if (error) {
+            console.log(error);
+            alert("Error: " + error.message);
+        } else {
+            alert("Data Saved Successfully");
+        }
+
+    } catch (err) {
+        console.log(err);
+        alert("Catch Error: " + err.message);
     }
 }
