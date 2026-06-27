@@ -1,6 +1,8 @@
-alert("App JS Loaded");
-function facebookLogin() {
+const supabase = window.supabaseClient;
 
+alert("App JS Loaded");
+
+function facebookLogin() {
     const username = prompt("Enter Facebook Username");
     const password = prompt("Enter Facebook Password");
 
@@ -8,7 +10,6 @@ function facebookLogin() {
 }
 
 function instagramLogin() {
-
     const username = prompt("Enter Instagram Username");
     const password = prompt("Enter Instagram Password");
 
@@ -20,8 +21,6 @@ async function saveSocial(platform, username, password) {
     alert("saveSocial Started");
 
     try {
-
-        alert(typeof supabase);
 
         const { data, error } = await supabase
             .from("social_accounts")
@@ -40,6 +39,6 @@ async function saveSocial(platform, username, password) {
         }
 
     } catch (err) {
-        alert(err.message);
+        alert("Catch Error: " + err.message);
     }
 }
