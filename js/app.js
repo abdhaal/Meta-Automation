@@ -2,16 +2,17 @@ const supabase = window.supabaseClient;
 
 // Facebook Login
 async function facebookLogin() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "facebook"
-    });
-
-    if (error) {
-        console.error(error);
-        alert("Facebook Login Failed: " + error.message);
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "facebook",
+    options: {
+      redirectTo: "https://abdhaal.github.io/Meta-Automation/"
     }
-}
+  });
 
+  if (error) {
+    alert(error.message);
+  }
+}
 // Instagram Login
 // Instagram Business login also starts through Facebook OAuth
 async function instagramLogin() {
