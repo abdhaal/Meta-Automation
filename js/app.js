@@ -1,3 +1,5 @@
+alert(window.supabaseClient);
+
 const supabase = window.supabaseClient;
 
 alert("App JS Loaded");
@@ -33,12 +35,14 @@ async function saveSocial(platform, username, password) {
             ]);
 
         if (error) {
-            alert(error.message);
+            alert("Supabase Error: " + error.message);
+            console.log(error);
         } else {
             alert("Data Saved Successfully");
         }
 
     } catch (err) {
         alert("Catch Error: " + err.message);
+        console.log(err);
     }
 }
