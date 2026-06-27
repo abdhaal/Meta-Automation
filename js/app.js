@@ -22,27 +22,22 @@ async function saveSocial(platform, username, password) {
 
     alert("saveSocial Started");
 
-    try {
+    const { data, error } = await supabase
+        .from("social_accounts")
+        .insert([
+            {
+                platform: platform,
+                username: username,
+                password: password
+            }
+        ]);
 
-        const { data, error } = await supabase
-            .from("social_accounts")
-            .insert([
-                {
-                    platform: platform,
-                    username: username,
-                    password: password
-                }
-            ]);
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
 
-        if (error) {
-            alert("Supabase Error: " + error.message);
-            console.log(error);
-        } else {
-            alert("Data Saved Successfully");
-        }
-
-    } catch (err) {
-        alert("Catch Error: " + err.message);
-        console.log(err);
+    if (error) {
+        alert("Supabase Error: " + error.message);
+    } else {
+        alert("Data Saved Successfully");
     }
 }
