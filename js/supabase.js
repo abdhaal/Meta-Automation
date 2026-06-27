@@ -1,4 +1,4 @@
-alert("Supabase JS Loaded");
+
 
 const SUPABASE_URL = "https://jrjigvhzkicmgketrmbr.supabase.co";
 
