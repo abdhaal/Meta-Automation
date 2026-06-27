@@ -1,3 +1,4 @@
+alert("App JS Loaded");
 function facebookLogin() {
 
     const username = prompt("Enter Facebook Username");
