@@ -21,6 +21,8 @@ async function saveSocial(platform, username, password) {
 
     try {
 
+        alert(typeof supabase);
+
         const { data, error } = await supabase
             .from("social_accounts")
             .insert([
@@ -32,14 +34,12 @@ async function saveSocial(platform, username, password) {
             ]);
 
         if (error) {
-            console.log(error);
-            alert("Error: " + error.message);
+            alert(error.message);
         } else {
             alert("Data Saved Successfully");
         }
 
     } catch (err) {
-        console.log(err);
-        alert("Catch Error: " + err.message);
+        alert(err.message);
     }
 }
