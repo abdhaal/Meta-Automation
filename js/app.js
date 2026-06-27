@@ -1,7 +1,15 @@
-const supabase = window.supabaseClient;
+// js/app.js
 
 // Facebook Login
 async function facebookLogin() {
+  // Function kulla variable fetch pannunga inside call trigger
+  const supabase = window.supabaseClient; 
+  
+  if (!supabase) {
+    alert("Supabase client is not initialized yet!");
+    return;
+  }
+
   const { error } = await supabase.auth.signInWithOAuth({
     provider: "facebook",
     options: {
@@ -10,40 +18,28 @@ async function facebookLogin() {
   });
 
   if (error) {
+    console.error(error);
     alert(error.message);
   }
 }
-// Instagram Login
-// Instagram Business login also starts through Facebook OAuth
-async function instagramLogin() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "facebook"
-    });
 
-    if (error) {
-        console.error(error);
-        alert("Instagram Login Failed: " + error.message);
-    }
-}
-
-// Check logged-in user after redirect
+// Check user logic
 async function checkUser() {
-    const { data, error } = await supabase.auth.getUser();
+    const supabase = window.supabaseClient;
+    if (!supabase) return;
 
+    const { data, error } = await supabase.auth.getUser();
     if (error) {
         console.log(error);
         return;
     }
-
     if (data.user) {
         console.log("Logged in user:", data.user);
-
-        alert(
-            "Login Success\n\n" +
-            "Name: " + (data.user.user_metadata.full_name || "") +
-            "\nEmail: " + (data.user.email || "")
-        );
+        alert("Login Success\n\nName: " + (data.user.user_metadata.full_name || "") + "\nEmail: " + (data.user.email || ""));
     }
 }
 
-checkUser();
+// HTML fully load aana piragu user ah check panna sollurom
+window.addEventListener('DOMContentLoaded', () => {
+    checkUser();
+});
