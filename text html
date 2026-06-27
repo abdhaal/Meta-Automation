@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supabase Test</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="js/supabase.js"></script>
+</head>
+<body>
+
+    <button onclick="test()">Connect</button>
+
+    <script>
+        async function test() {
+
+            const { data, error } = await supabase
+                .from("users")
+                .select("*");
+
+            if (error) {
+                console.log(error);
+                alert("Connection Failed");
+            } else {
+                console.log(data);
+                alert("Connection Successful");
+            }
+
+        }
+    </script>
+
+</body>
+</html>
