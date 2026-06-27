@@ -52,7 +52,7 @@ async function checkUser() {
         console.log("Logged in user:", data.user);
         
         // Success alert kaatuna appram instant-ah automatic dashboard movement
-        alert("Welcome " + (data.user.user_metadata.full_name || "User"));
+    
         window.location.href = "dashboard.html"; 
     }
 }
