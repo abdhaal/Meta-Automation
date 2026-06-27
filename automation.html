@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Auto DM</title>
+
+<link rel="stylesheet" href="css/dashboard.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>Meta Tool</h2>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="automation.html">Auto DM</a>
+<a href="#">Comments</a>
+<a href="#">Analytics</a>
+<a href="#">Settings</a>
+
+</div>
+
+<div class="main">
+
+<h1>Auto DM Settings</h1>
+
+<div class="card">
+
+<label>Facebook / Instagram Post ID</label>
+
+<input type="text" id="postid" placeholder="Enter Post ID">
+
+<br><br>
+
+<label>Auto DM Message</label>
+
+<textarea id="message" rows="8" placeholder="Hi 👋 Thanks for your comment! Check your offer here..."></textarea>
+
+<br><br>
+
+<label>
+
+<input type="checkbox" id="status">
+
+Enable Auto DM
+
+</label>
+
+<br><br>
+
+<button onclick="saveAutomation()">
+
+Save Settings
+
+</button>
+
+</div>
+
+</div>
+
+<script src="js/automation.js"></script>
+
+</body>
+
+</html>
