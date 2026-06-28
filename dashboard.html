@@ -1,63 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Dashboard</title>
-
-<link rel="stylesheet" href="css/dashboard.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Meta Automation</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script src="js/supabase.js" defer></script>
+    <script src="js/dashboard.js" defer></script>
 </head>
-
 <body>
 
-<div class="sidebar">
+<div class="dashboard-container" style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: Arial, sans-serif;">
+    <div class="header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 20px;">
+        <div>
+            <h2>Welcome, <span id="user-name">Loading...</span>! 👋</h2>
+            <p style="color: #666; margin: 5px 0 0 0;">Email: <span id="user-email">...</span></p>
+        </div>
+        <button onclick="logout()" style="background: #ff4d4d; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Logout</button>
+    </div>
 
-<h2>Meta Tool</h2>
-
-<a href="#">Dashboard</a>
-
-<a href="#">Videos</a>
-
-<a href="#">Auto DM</a>
-
-<a href="#">Comments</a>
-
-<a href="#">Analytics</a>
-
-<a href="#">Settings</a>
-
-</div>
-
-<div class="main">
-
-<h1>Dashboard</h1>
-
-<div class="card">
-<h3>Connected Accounts</h3>
-<p>0</p>
-</div>
-
-<div class="card">
-<h3>Auto DM</h3>
-<p>OFF</p>
-</div>
-
-<div class="card">
-<h3>Comments Today</h3>
-<p>0</p>
-</div>
-
-<div class="card">
-<h3>Messages Sent</h3>
-<p>0</p>
-</div>
-
+    <div class="content" style="margin-top: 30px;">
+        <h3>Meta DM Automation Control</h3>
+        <p>Unga Facebook/Instagram page auto-reply features-ah inga control pannunga.</p>
+        
+        <div class="status-card" style="background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-top: 20px;">
+            <h4>Automation Status: <span style="color: #ffa500;">Setup Required</span></h4>
+            <p>Facebook Pages integration and permissions sync status active parameters tool mapping verify pannadhum run aagum.</p>
+            <button style="background: #1877f2; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+                Link Meta Page Tokens
+            </button>
+        </div>
+    </div>
 </div>
 
 </body>
-
 </html>
