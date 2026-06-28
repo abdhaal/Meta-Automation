@@ -4,32 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Meta Automation</title>
-    <link rel="stylesheet" href="css/style.css">
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <script src="js/supabase.js" defer></script>
     <script src="js/dashboard.js" defer></script>
 </head>
-<body>
+<body style="background: #007bff; margin: 0; padding: 20px;">
 
-<div class="dashboard-container" style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: Arial, sans-serif;">
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1021410946936223', // Unga Meta App ID
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v20.0'
+    });
+  };
+
+  // Direct Button Click Authentication Trigger
+  function launchMetaLogin() {
+    FB.login(function(response) {
+      if (response.authResponse) {
+        console.log('Access Token successfully fetched:', response.authResponse.accessToken);
+        alert('Meta Token successfully captured backend integration live!');
+        
+        // Dynamic save to database function triggers
+        if(window.saveMetaTokensToDB) {
+            window.saveMetaTokensToDB(response.authResponse.accessToken, response.authResponse.userID);
+        }
+      } else {
+        alert('User cancelled login or did not fully authorize.');
+      }
+    }, {
+      // Intha direct setup-la automation advanced scopes bypass error trigger aagaathu
+      scope: 'pages_show_list,pages_messaging,instagram_basic,instagram_manage_messages,pages_read_engagement'
+    });
+  }
+</script>
+
+<div class="dashboard-container" style="max-width: 600px; margin: 90px auto; padding: 30px; font-family: Arial, sans-serif; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
     <div class="header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 20px;">
         <div>
-            <h2>Welcome, <span id="user-name">Loading...</span>! 👋</h2>
-            <p style="color: #666; margin: 5px 0 0 0;">Email: <span id="user-email">...</span></p>
+            <h2 style="margin: 0; font-weight: bold; color: #333;">Welcome, Mohamed Abdhaal! 👋</h2>
+            <p style="color: #666; margin: 5px 0 0 0;" id="user-email">Loading account session...</p>
         </div>
-        <button onclick="logout()" style="background: #ff4d4d; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Logout</button>
+        <button onclick="logout()" style="background: #ff4d4d; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">Logout</button>
     </div>
 
     <div class="content" style="margin-top: 30px;">
-        <h3>Meta DM Automation Control</h3>
-        <p>Unga Facebook/Instagram page auto-reply features-ah inga control pannunga.</p>
+        <h3 style="color: #222;">Meta DM Automation Control</h3>
+        <p style="color: #555; line-height: 1.5;">Unga Facebook/Instagram page auto-reply features-ah direct integration query valiya inga control pannunga.</p>
         
-        <div class="status-card" style="background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-top: 20px;">
-            <h4>Automation Status: <span style="color: #ffa500;">Setup Required</span></h4>
-            <p>Facebook Pages integration and permissions sync status active parameters tool mapping verify pannadhum run aagum.</p>
-            <button style="background: #1877f2; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+        <div class="status-card" style="background: #f9f9f9; padding: 25px; border-radius: 10px; border: 1px solid #ddd; margin-top: 25px; text-align: center;">
+            <h4 style="margin-top:0;">Automation Status: <span style="color: #ffa500;">Setup Required</span></h4>
+            <p style="font-size: 14px; color: #666;">Click the button below to link permissions directly using Meta Developer Sandbox rules.</p>
+            
+            <button onclick="launchMetaLogin()" style="background: #1877f2; color: white; border: none; padding: 14px 25px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; box-shadow: 0 2px 5px rgba(24,119,242,0.3);">
                 Link Meta Page Tokens
             </button>
         </div>
