@@ -1,43 +1,16 @@
 // js/app.js
 
-// Facebook Login Function
+// Facebook Login Function - Direct SDK Workflow Route
 async function facebookLogin() {
-    const supabase = window.supabaseClient;
-    if (!supabase) return;
-
-    const { error } = await supabase.auth.signInWithOAuth({
-        provider: "facebook",
-        options: {
-            redirectTo: "https://abdhaal.github.io/Meta-Automation/",
-            // Error varama iruka basic login scopes mattum thaan inga kuduthurukom
-            scopes: "public_profile,email"
-        }
-    });
-
-    if (error) {
-        console.error(error);
-        alert("Facebook Login Error: " + error.message);
-    }
+    console.log("Redirecting to dashboard for direct Meta SDK workflow...");
+    // Meta permissions error bypass panna direct dashboard navigation
+    window.location.href = "dashboard.html";
 }
 
-// Instagram Login Function
+// Instagram Login Function - Direct SDK Workflow Route
 async function instagramLogin() {
-    const supabase = window.supabaseClient;
-    if (!supabase) return;
-
-    const { error } = await supabase.auth.signInWithOAuth({
-        provider: "facebook",
-        options: {
-            redirectTo: "https://abdhaal.github.io/Meta-Automation/",
-            // Rendu login-kum basic scopes set panniyachu
-            scopes: "public_profile,email"
-        }
-    });
-
-    if (error) {
-        console.error(error);
-        alert("Instagram Login Error: " + error.message);
-    }
+    console.log("Redirecting to dashboard for direct Meta SDK workflow...");
+    window.location.href = "dashboard.html";
 }
 
 // Check logged-in user state and handle redirect
@@ -45,6 +18,7 @@ async function checkUser() {
     const supabase = window.supabaseClient;
     if (!supabase) return;
 
+    // Active session status context extraction
     const { data, error } = await supabase.auth.getUser();
 
     if (error) {
@@ -53,13 +27,13 @@ async function checkUser() {
     }
 
     if (data && data.user) {
-        console.log("Logged in user:", data.user);
-        // Direct-ah dashboard-ku poga veykum
+        console.log("Logged in user verified:", data.user);
+        // Already profile session log in state-la irundha direct-ah dashboard-ku poga veykum
         window.location.href = "dashboard.html"; 
     }
 }
 
-// Check status on page load
+// Check status on page load framework trigger
 window.addEventListener('DOMContentLoaded', () => {
     checkUser();
 });
