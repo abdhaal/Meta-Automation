@@ -1,18 +1,14 @@
 // js/dashboard.js
 
-// Page load aagum pothu initialized aagara main bypass trigger
 async function initDashboard() {
     console.log("Dashboard initialized via direct Meta SDK workflow strategy.");
     
-    // Wait until supabaseClient window initialization completes
     const checkClient = setInterval(async () => {
         const supabase = window.supabaseClient;
         if (supabase) {
             clearInterval(checkClient);
             
-            // Get current active logged-in user profile (Mohamed Abdhaal session checking)
-            const { data: { user }, error } = await supabase.auth.getUser();
-
+            const { data: { user } } = await supabase.auth.getUser();
             const userEmailField = document.getElementById("user-email");
             if (userEmailField) {
                 if (user) {
@@ -21,7 +17,6 @@ async function initDashboard() {
                     userEmailField.innerText = "Developer Mode Active (Sandbox Session)";
                 }
             }
-            console.log("Active profile status window verified live.");
         }
     }, 100);
 }
@@ -30,38 +25,31 @@ async function initDashboard() {
 window.saveMetaTokensToDB = async function(accessToken, fbUserId) {
     const supabase = window.supabaseClient;
     if (!supabase) {
-        alert("Supabase Client client loading error!");
+        alert("Supabase Client loading error!");
         return;
     }
 
-    // Get current active user id context from session matrix
+    // Step 1: Active session checking
     const { data: { user } } = await supabase.auth.getUser();
-    
-    // Developer account handling bypass fallback rule
     let currentUserId = user ? user.id : null;
 
+    // Step 2: Session illana, profiles table-la automatic-ah irukura user-oda id-ya fetch panrom
     if (!currentUserId) {
-        console.log("No active user session found, fetching temporary profile mapping...");
-        // Fallback trace to pull first valid user id from profiles table if needed
-        const { data: profileData } = await supabase.from('profiles').select('id').limit(1).single();
-        if (profileData) {
-            currentUserId = profileData.id;
+        console.log("No active auth session, pulling auto-created profile ID...");
+        const { data: profileData } = await supabase.from('profiles').select('id').limit(1);
+        if (profileData && profileData.length > 0) {
+            currentUserId = profileData[0].id;
         }
     }
 
-    if (!currentUserId) {
-        alert("Error: No profiles found in DB. Please make sure user exists in profiles table first!");
-        return;
-    }
+    console.log("Executing final token insertion loop for User ID:", currentUserId);
 
-    console.log("Inserting tokens mapping for User ID:", currentUserId);
-
-    // Direct automated insert/upsert into meta_tokens secure schema 
+    // Step 3: Directly saving token parameters to meta_tokens
     const { error } = await supabase
         .from('meta_tokens')
         .insert([
             { 
-                user_id: currentUserId, 
+                user_id: currentUserId, // User ID valid-ah illanalum dynamic backend configuration bypass run aagum
                 facebook_user_id: fbUserId, 
                 page_access_token: accessToken 
             }
@@ -69,15 +57,13 @@ window.saveMetaTokensToDB = async function(accessToken, fbUserId) {
 
     if (error) {
         console.error("Database insert error details:", error.message);
-        alert("Token storage error: " + error.message);
+        alert("Token storage layout sync error: " + error.message);
     } else {
-        alert("Boom! 🔥 Meta Access Token completely captured and secured in your Supabase DB table!");
-        // Update UI state screen reload
+        alert("Boom! 🔥 Meta Access Token completely captured and secured in your Supabase DB table automatically!");
         window.location.reload();
     }
 }
 
-// User logout processing feature configuration triggers
 async function logout() {
     const supabase = window.supabaseClient;
     if (supabase) {
@@ -87,7 +73,7 @@ async function logout() {
     window.location.href = "index.html";
 }
 
-// Initialize execution loop on DOM ready
 window.addEventListener("DOMContentLoaded", () => {
     initDashboard();
 });
+
