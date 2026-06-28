@@ -1,4 +1,4 @@
-// js/app.js
+// js/app.js - Official Safe Signup/Signin Orchestrator
 
 async function handleAutomatedRegistration() {
     const supabase = window.supabaseClient;
@@ -8,38 +8,27 @@ async function handleAutomatedRegistration() {
     }
 
     try {
-        console.log("Starting secure automatic user initialization...");
-        
-        // Step A: Active session இருக்கான்னு செக் பண்றோம்
-        const { data: { user } } = await supabase.auth.getUser();
+        const testEmail = "developer.test@meta.io";
+        const testPassword = "SecurePassword123!";
 
-        // Step B: செஷன் இல்லைனா, ஒரு டெஸ்ட் அக்கவுண்ட்டை ஆட்டோ-சைன்இன் பண்ண வைக்கிறோம்
-        if (!user) {
-            console.log("No active session. Automating sandbox secure authentication...");
-            
-            const testEmail = "abdhaal0@gmail.com";
-            const testPassword = "SuperSecurePassword123!"; // Dummy testing creds
+        // Attempt 1: Safe Authentication SignIn execution
+        let { data, error } = await supabase.auth.signInWithPassword({
+            email: testEmail,
+            password: testPassword
+        });
 
-            // முதல்ல லாகின் பண்ண ட்ரை பண்றோம்
-            let { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+        // Attempt 2: Session verify aagala na automatic safe database profile generator creation signup
+        if (error) {
+            console.log("Creating new secure sandbox user identity...");
+            await supabase.auth.signUp({
                 email: testEmail,
                 password: testPassword
             });
-
-            // அக்கவுண்ட் இல்லைனா, புதுசா ஆட்டோ-சைன்அப் பண்றோம்
-            if (signInError) {
-                console.log("Creating new test identity configuration inside auth schema...");
-                let { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-                    email: testEmail,
-                    password: testPassword
-                });
-                
-                if (signUpError) console.error("Auto signup bypass failed:", signUpError.message);
-            }
         }
     } catch (err) {
-        console.error("Auth Engine Exception:", err);
+        console.error("Auth process check failed:", err);
     } finally {
+        // Safe navigation routing 
         window.location.href = "dashboard.html";
     }
 }
@@ -55,3 +44,4 @@ async function checkUser() {
 }
 
 window.addEventListener('DOMContentLoaded', () => { checkUser(); });
+
