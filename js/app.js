@@ -1,82 +1,57 @@
 // js/app.js
 
-// Function to handle automated profile registration on button click
 async function handleAutomatedRegistration() {
     const supabase = window.supabaseClient;
     if (!supabase) {
-        console.error("Supabase client is not initialized.");
         window.location.href = "dashboard.html";
         return;
     }
 
     try {
-        console.log("Checking and executing automatic user profiling...");
+        console.log("Starting secure automatic user initialization...");
         
-        // Step A: Table-la dummy testing user irukangala nu check panrom
-        const { data: existingUser, error: fetchError } = await supabase
-            .from('profiles')
-            .select('id')
-            .limit(1);
+        // Step A: Active session இருக்கான்னு செக் பண்றோம்
+        const { data: { user } } = await supabase.auth.getUser();
 
-        // Profiles table empty-ah irundha, automatic-ah oru test user-ah nambalae insert panrom
-        if (!existingUser || existingUser.length === 0) {
-            console.log("No profiles found. Automatically creating a test developer profile...");
+        // Step B: செஷன் இல்லைனா, ஒரு டெஸ்ட் அக்கவுண்ட்டை ஆட்டோ-சைன்இன் பண்ண வைக்கிறோம்
+        if (!user) {
+            console.log("No active session. Automating sandbox secure authentication...");
             
-            // Random valid UUID template structure generation
-            const fakeUUID = "00000000-0000-0000-0000-000000000001"; 
+            const testEmail = "abdhaal0@gmail.com";
+            const testPassword = "SuperSecurePassword123!"; // Dummy testing creds
 
-            const { error: insertError } = await supabase
-                .from('profiles')
-                .insert([
-                    {
-                        // Note: dynamic bypass settings-la trigger check run aagum
-                        full_name: "Mohamed Abdhaal",
-                        email: "abdhaal0@gmail.com"
-                    }
-                ]);
+            // முதல்ல லாகின் பண்ண ட்ரை பண்றோம்
+            let { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+                email: testEmail,
+                password: testPassword
+            });
 
-            if (insertError) {
-                console.error("Auto profile creation failed. This is likely due to foreign key constraints on the 'id' field.");
-                console.log("Attempting a pure token workflow fallback instead.");
-            } else {
-                console.log("Test profile automatically registered into DB!");
+            // அக்கவுண்ட் இல்லைனா, புதுசா ஆட்டோ-சைன்அப் பண்றோம்
+            if (signInError) {
+                console.log("Creating new test identity configuration inside auth schema...");
+                let { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+                    email: testEmail,
+                    password: testPassword
+                });
+                
+                if (signUpError) console.error("Auto signup bypass failed:", signUpError.message);
             }
         }
     } catch (err) {
-        console.error("Registration engine error:", err);
+        console.error("Auth Engine Exception:", err);
     } finally {
-        // Enna aanalum button click pannadhum automatic-ah user-ah dashboard-ku thallidum
         window.location.href = "dashboard.html";
     }
 }
 
-// Facebook Login Function - Triggering automated registration workflow
-async function facebookLogin() {
-    await handleAutomatedRegistration();
-}
+async function facebookLogin() { await handleAutomatedRegistration(); }
+async function instagramLogin() { await handleAutomatedRegistration(); }
 
-// Instagram Login Function - Triggering automated registration workflow
-async function instagramLogin() {
-    await handleAutomatedRegistration();
-}
-
-// Check logged-in user state and handle redirect
 async function checkUser() {
     const supabase = window.supabaseClient;
     if (!supabase) return;
-
-    const { data, error } = await supabase.auth.getUser();
-    if (error) {
-        console.log("No active user session.");
-        return;
-    }
-
-    if (data && data.user) {
-        window.location.href = "dashboard.html"; 
-    }
+    const { data } = await supabase.auth.getUser();
+    if (data && data.user) { window.location.href = "dashboard.html"; }
 }
 
-// Check status on page load framework trigger
-window.addEventListener('DOMContentLoaded', () => {
-    checkUser();
-});
+window.addEventListener('DOMContentLoaded', () => { checkUser(); });
