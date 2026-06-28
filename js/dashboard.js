@@ -1,16 +1,15 @@
-// js/dashboard.js - Strict Validation Storage Layout
+// js/dashboard.js - Live Error Catching Engine
 
 async function initDashboard() {
-    console.log("Dashboard initialized with strict profile verification rules.");
-    
+    console.log("Strict profile verification mode active.");
     const checkClient = setInterval(async () => {
         const supabase = window.supabaseClient;
         if (supabase) {
             clearInterval(checkClient);
             const { data: { user } } = await supabase.auth.getUser();
             const userEmailField = document.getElementById("user-email");
-            if (userEmailField && user) {
-                userEmailField.innerText = "Active Session: " + user.email;
+            if (userEmailField) {
+                userEmailField.innerText = user ? "Active Session: " + user.email : "Developer Mode Active (No Session)";
             }
         }
     }, 100);
@@ -18,34 +17,38 @@ async function initDashboard() {
 
 window.saveMetaTokensToDB = async function(accessToken, fbUserId) {
     const supabase = window.supabaseClient;
-    if (!supabase) return;
-
-    // Secure extraction of authenticated row matching id matrix
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-        alert("Security Error: No verified dynamic authentication context found!");
+    if (!supabase) {
+        alert("Alert: Supabase Client not initialized inside dashboard!");
         return;
     }
 
-    console.log("Writing meta access matrix data under safe unique reference id: ", user.id);
+    // Step 1: Check actual current session live
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError) {
+        alert("Auth Session Error: " + authError.message);
+    }
 
-    // Completely compliant table parameters insertion
-    const { error } = await supabase
+    let currentUserId = user ? user.id : null;
+    alert("Live Step 1: Active User ID discovered -> " + currentUserId);
+
+    // Step 2: Try to push data and trap the exact database refusal reason
+    const { data, error } = await supabase
         .from('meta_tokens')
         .insert([
             { 
-                user_id: user.id, // linked perfectly with exact system rules
+                user_id: currentUserId, 
                 facebook_user_id: fbUserId, 
                 page_access_token: accessToken 
             }
-        ]);
+        ])
+        .select();
 
     if (error) {
-        console.error("Database structural validation failure error log:", error.message);
-        alert("Sync error encountered: " + error.message);
+        // Intha alert thaan namba app-oda core block-ah ippo pottu udaika poguthu!
+        alert("🚨 DATABASE REFUSED INSERTION!\n\nReason: " + error.message + "\nDetails: " + error.details + "\nCode: " + error.code);
     } else {
-        alert("Boom! 🔥 Meta Access Token completely captured and secured with your user identity!");
+        alert("Boom! 🔥 Meta Access Token completely captured and secured!");
         window.location.reload();
     }
 }
@@ -57,3 +60,4 @@ async function logout() {
 }
 
 window.addEventListener("DOMContentLoaded", () => { initDashboard(); });
+
