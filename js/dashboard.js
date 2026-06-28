@@ -41,8 +41,7 @@ window.saveMetaTokensToDB = async function(accessToken, fbUserId) {
                 facebook_user_id: fbUserId, 
                 page_access_token: accessToken 
             }
-        ])
-        .select();
+        ]);
 
     if (error) {
         // Intha alert thaan namba app-oda core block-ah ippo pottu udaika poguthu!
