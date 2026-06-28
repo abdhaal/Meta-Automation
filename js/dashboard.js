@@ -1,79 +1,59 @@
 // js/dashboard.js
 
 async function initDashboard() {
-    console.log("Dashboard initialized via direct Meta SDK workflow strategy.");
+    console.log("Dashboard initialized with strict verification rules.");
     
     const checkClient = setInterval(async () => {
         const supabase = window.supabaseClient;
         if (supabase) {
             clearInterval(checkClient);
-            
             const { data: { user } } = await supabase.auth.getUser();
             const userEmailField = document.getElementById("user-email");
-            if (userEmailField) {
-                if (user) {
-                    userEmailField.innerText = "Email: " + user.email;
-                } else {
-                    userEmailField.innerText = "Developer Mode Active (Sandbox Session)";
-                }
+            if (userEmailField && user) {
+                userEmailField.innerText = "Active User: " + user.email;
             }
         }
     }, 100);
 }
 
-// Global Window Function to automatically save captured Meta tokens into Supabase DB
 window.saveMetaTokensToDB = async function(accessToken, fbUserId) {
     const supabase = window.supabaseClient;
-    if (!supabase) {
-        alert("Supabase Client loading error!");
+    if (!supabase) return;
+
+    // Step 1: செஷன்ல இருந்து கரெக்டான Real User ID-யை மட்டும் எடுக்குறோம்
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+        alert("Security Error: No authenticated user session found. Cannot save token safely!");
         return;
     }
 
-    // Step 1: Active session checking
-    const { data: { user } } = await supabase.auth.getUser();
-    let currentUserId = user ? user.id : null;
+    console.log("Saving token for authenticated user:", user.id);
 
-    // Step 2: Session illana, profiles table-la automatic-ah irukura user-oda id-ya fetch panrom
-    if (!currentUserId) {
-        console.log("No active auth session, pulling auto-created profile ID...");
-        const { data: profileData } = await supabase.from('profiles').select('id').limit(1);
-        if (profileData && profileData.length > 0) {
-            currentUserId = profileData[0].id;
-        }
-    }
-
-    console.log("Executing final token insertion loop for User ID:", currentUserId);
-
-    // Step 3: Directly saving token parameters to meta_tokens
+    // Step 2: User ID-யோட டோக்கனை செக்யூரா இன்செர்ட் பண்றோம் (டேட்டாபேஸ் இப்போ அலவ் பண்ணும்!)
     const { error } = await supabase
         .from('meta_tokens')
         .insert([
             { 
-                user_id: currentUserId, // User ID valid-ah illanalum dynamic backend configuration bypass run aagum
+                user_id: user.id, // Linked safely to auth.users!
                 facebook_user_id: fbUserId, 
                 page_access_token: accessToken 
             }
         ]);
 
     if (error) {
-        console.error("Database insert error details:", error.message);
-        alert("Token storage layout sync error: " + error.message);
+        console.error("DB Save Error:", error.message);
+        alert("Storage error: " + error.message);
     } else {
-        alert("Boom! 🔥 Meta Access Token completely captured and secured in your Supabase DB table automatically!");
+        alert("Boom! 🔥 Meta Access Token completely captured and secured with your user identity!");
         window.location.reload();
     }
 }
 
 async function logout() {
     const supabase = window.supabaseClient;
-    if (supabase) {
-        await supabase.auth.signOut();
-    }
-    alert("Logged out successfully!");
+    if (supabase) await supabase.auth.signOut();
     window.location.href = "index.html";
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-    initDashboard();
-});
-
+window.addEventListener("DOMContentLoaded", () => { initDashboard(); });
