@@ -8,7 +8,9 @@ async function facebookLogin() {
     const { error } = await supabase.auth.signInWithOAuth({
         provider: "facebook",
         options: {
-            redirectTo: "https://abdhaal.github.io/Meta-Automation/"
+            redirectTo: "https://abdhaal.github.io/Meta-Automation/",
+            // Error varama iruka basic login scopes mattum thaan inga kuduthurukom
+            scopes: "public_profile,email"
         }
     });
 
@@ -26,7 +28,9 @@ async function instagramLogin() {
     const { error } = await supabase.auth.signInWithOAuth({
         provider: "facebook",
         options: {
-            redirectTo: "https://abdhaal.github.io/Meta-Automation/"
+            redirectTo: "https://abdhaal.github.io/Meta-Automation/",
+            // Rendu login-kum basic scopes set panniyachu
+            scopes: "public_profile,email"
         }
     });
 
@@ -50,9 +54,7 @@ async function checkUser() {
 
     if (data && data.user) {
         console.log("Logged in user:", data.user);
-        
-        // Success alert kaatuna appram instant-ah automatic dashboard movement
-    
+        // Direct-ah dashboard-ku poga veykum
         window.location.href = "dashboard.html"; 
     }
 }
