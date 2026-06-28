@@ -1,7 +1,7 @@
-// js/dashboard.js
+// js/dashboard.js - Strict Validation Storage Layout
 
 async function initDashboard() {
-    console.log("Dashboard initialized with strict verification rules.");
+    console.log("Dashboard initialized with strict profile verification rules.");
     
     const checkClient = setInterval(async () => {
         const supabase = window.supabaseClient;
@@ -10,7 +10,7 @@ async function initDashboard() {
             const { data: { user } } = await supabase.auth.getUser();
             const userEmailField = document.getElementById("user-email");
             if (userEmailField && user) {
-                userEmailField.innerText = "Active User: " + user.email;
+                userEmailField.innerText = "Active Session: " + user.email;
             }
         }
     }, 100);
@@ -20,30 +20,30 @@ window.saveMetaTokensToDB = async function(accessToken, fbUserId) {
     const supabase = window.supabaseClient;
     if (!supabase) return;
 
-    // Step 1: செஷன்ல இருந்து கரெக்டான Real User ID-யை மட்டும் எடுக்குறோம்
+    // Secure extraction of authenticated row matching id matrix
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
-        alert("Security Error: No authenticated user session found. Cannot save token safely!");
+        alert("Security Error: No verified dynamic authentication context found!");
         return;
     }
 
-    console.log("Saving token for authenticated user:", user.id);
+    console.log("Writing meta access matrix data under safe unique reference id: ", user.id);
 
-    // Step 2: User ID-யோட டோக்கனை செக்யூரா இன்செர்ட் பண்றோம் (டேட்டாபேஸ் இப்போ அலவ் பண்ணும்!)
+    // Completely compliant table parameters insertion
     const { error } = await supabase
         .from('meta_tokens')
         .insert([
             { 
-                user_id: user.id, // Linked safely to auth.users!
+                user_id: user.id, // linked perfectly with exact system rules
                 facebook_user_id: fbUserId, 
                 page_access_token: accessToken 
             }
         ]);
 
     if (error) {
-        console.error("DB Save Error:", error.message);
-        alert("Storage error: " + error.message);
+        console.error("Database structural validation failure error log:", error.message);
+        alert("Sync error encountered: " + error.message);
     } else {
         alert("Boom! 🔥 Meta Access Token completely captured and secured with your user identity!");
         window.location.reload();
