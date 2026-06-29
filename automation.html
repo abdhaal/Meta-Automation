@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auto DM</title>
     <link rel="stylesheet" href="css/dashboard.css">
     
+    <!-- 🎯 மிக முக்கியம்: சுபாபேஸ் லைப்ரரி ஸ்கிரிப்ட் -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
 <body>
 
     <div class="sidebar">
@@ -24,52 +23,48 @@
     <div class="main">
         <h1>Auto DM Settings</h1>
 
+        <!-- સેક્શન 1: பழைய கார்டு -->
         <div class="card">
             <h3>Comment Auto DM (Post-Based)</h3>
             <label>Facebook / Instagram Post ID</label>
             <input type="text" id="postid" placeholder="Enter Post ID">
             <br><br>
-
             <label>Auto DM Message</label>
-            <textarea id="message" rows="4" placeholder="Hi 👋 Thanks for your comment! Check your offer here..."></textarea>
+            <textarea id="message" rows="4" placeholder="Hi 👋 Thanks for your comment!"></textarea>
             <br><br>
-
             <label>
-                <input type="checkbox" id="status">
-                Enable Auto DM
+                <input type="checkbox" id="status"> Enable Auto DM
             </label>
             <br><br>
-
-            <button onclick="saveAutomation()">
-                Save DM Settings
-            </button>
+            <button onclick="saveAutomation()">Save DM Settings</button>
         </div>
 
         <br><br>
 
+        <!-- செக்ஷன் 2: மெசஞ்சர் பாட் கார்டு (Inline Styles உடன்) -->
         <div style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 20px;">
             <h3 style="margin-top: 0; color: #333;">Messenger Bot & WhatsApp Channel Settings</h3>
             <br>
             
             <label style="font-weight: bold; color: #555; display: block; margin-bottom: 5px;">Auto Reply Message</label>
-            <textarea id="replyText" rows="4" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;" placeholder="Enter the text that goes before the WhatsApp link..."></textarea>
+            <textarea id="replyText" rows="4" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;" placeholder="Enter the text..."></textarea>
             <br><br>
 
             <label style="font-weight: bold; color: #555; display: block; margin-bottom: 5px;">WhatsApp Channel URL</label>
             <input type="text" id="whatsappUrl" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;" placeholder="https://whatsapp.com/channel/...">
             <br><br>
 
-            <button id="saveBotSettingsBtn" onclick="saveBotSettings()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+            <!-- 🎯 இங்கதான் ஆன்-கிளிக் மாத்தியாச்சு bro -->
+            <button onclick="window.saveBotSettings()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
                 Save Bot Settings
             </button>
             <br><br>
             
-            <p id="botStatusMessage" style="font-weight: bold; margin: 0; min-height: 20px;"></p>
+            <p id="botStatusMessage" style="font-weight: bold; margin: 0; min-height: 20px; color: orange;"></p>
         </div>
     </div>
 
+    <!-- உங்க ஜாவாஸ்கிரிப்ட் ஃபைல் -->
     <script src="js/automation.js"></script>
-
 </body>
-
 </html>
