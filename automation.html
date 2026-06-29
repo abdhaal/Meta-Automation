@@ -2,69 +2,75 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Auto DM</title>
-
-<link rel="stylesheet" href="css/dashboard.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto DM</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <!-- Supabase SDK - இது டேட்டாபேஸ் கனெக்ஷனுக்கு முக்கியம் bro -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
-<div class="sidebar">
+    <div class="sidebar">
+        <h2>Meta Tool</h2>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="automation.html">Auto DM</a>
+        <a href="#">Comments</a>
+        <a href="#">Analytics</a>
+        <a href="#">Settings</a>
+    </div>
 
-<h2>Meta Tool</h2>
+    <div class="main">
+        <h1>Auto DM Settings</h1>
 
-<a href="dashboard.html">Dashboard</a>
-<a href="automation.html">Auto DM</a>
-<a href="#">Comments</a>
-<a href="#">Analytics</a>
-<a href="#">Settings</a>
+        <!-- செக்ஷன் 1: கமெண்ட் பண்ணா இன்ஸ்டன்ட்டா இன்ஸ்டா/ஃபேஸ்புக்ல போற பழைய ஆட்டோ டிஎம் கார்டு -->
+        <div class="card">
+            <h3>Comment Auto DM (Post-Based)</h3>
+            <label>Facebook / Instagram Post ID</label>
+            <input type="text" id="postid" placeholder="Enter Post ID">
+            <br><br>
 
-</div>
+            <label>Auto DM Message</label>
+            <textarea id="message" rows="4" placeholder="Hi 👋 Thanks for your comment! Check your offer here..."></textarea>
+            <br><br>
 
-<div class="main">
+            <label>
+                <input type="checkbox" id="status">
+                Enable Auto DM
+            </label>
+            <br><br>
 
-<h1>Auto DM Settings</h1>
+            <button onclick="saveAutomation()">
+                Save DM Settings
+            </button>
+        </div>
 
-<div class="card">
+        <br>
 
-<label>Facebook / Instagram Post ID</label>
+        <!-- செக்ஷன் 2: புதுசு! பேஜுக்கு டைரக்டா மெசேஜ் பண்ணா வாட்ஸ்அப் லிங்க்கோட ரிப்ளை போற மெசஞ்சர் பாட் கார்டு -->
+        <div class="card">
+            <h3>Messenger Bot & WhatsApp Channel Settings</h3>
+            
+            <label>Auto Reply Message</label>
+            <textarea id="replyText" rows="4" placeholder="Enter the text that goes before the WhatsApp link..."></textarea>
+            <br><br>
 
-<input type="text" id="postid" placeholder="Enter Post ID">
+            <label>WhatsApp Channel URL</label>
+            <input type="text" id="whatsappUrl" placeholder="https://whatsapp.com/channel/...">
+            <br><br>
 
-<br><br>
+            <button id="saveBotSettingsBtn">
+                Save Bot Settings
+            </button>
+            <br><br>
+            <!-- சக்சஸ் மெசேஜ் காட்டுறதுக்கான இடம் -->
+            <p id="botStatusMessage" style="font-weight: bold; margin: 0;"></p>
+        </div>
+    </div>
 
-<label>Auto DM Message</label>
-
-<textarea id="message" rows="8" placeholder="Hi 👋 Thanks for your comment! Check your offer here..."></textarea>
-
-<br><br>
-
-<label>
-
-<input type="checkbox" id="status">
-
-Enable Auto DM
-
-</label>
-
-<br><br>
-
-<button onclick="saveAutomation()">
-
-Save Settings
-
-</button>
-
-</div>
-
-</div>
-
-<script src="js/automation.js"></script>
+    <!-- உங்க ஸ்கிரிப்ட் ஃபைல் -->
+    <script src="js/automation.js"></script>
 
 </body>
 
