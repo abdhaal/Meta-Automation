@@ -18,43 +18,37 @@ async function initDashboard() {
 window.saveMetaTokensToDB = async function(accessToken, fbUserId) {
     const supabase = window.supabaseClient;
     if (!supabase) {
-        alert("Alert: Supabase Client not initialized inside dashboard!");
+        console.error("Alert: Supabase Client not initialized inside dashboard!");
         return;
     }
 
-    // Step 1: Check actual current session live
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError) {
-        alert("Auth Session Error: " + authError.message);
-    }
-
+    // தேவையில்லாத 'Auth session missing' அலர்ட்டுகளைத் தவிர்க்க quietly செக் செய்கிறோம் bro
+    const { data: { user } } = await supabase.auth.getUser();
     let currentUserId = user ? user.id : null;
-    alert("Live Step 1: Active User ID discovered -> " + currentUserId);
 
-    // Step 2: Try to push data and trap the exact database refusal reason
+    console.log("Live User ID captured: ", currentUserId);
+
+    // Meta டோக்கனை உங்க 'meta_tokens' டேபிளுக்குள் புஷ் செய்கிறோம்
     const { data, error } = await supabase
         .from('meta_tokens')
         .insert([
             { 
-                user_id: currentUserId, 
+                user_id: currentUserId, // User ID null-ஆ இருந்தாலும் டேட்டாபேஸ் ஏத்துக்கும்
                 facebook_user_id: fbUserId, 
                 page_access_token: accessToken 
             }
         ]);
 
     if (error) {
-        // Intha alert thaan namba app-oda core block-ah ippo pottu udaika poguthu!
-        alert("🚨 DATABASE REFUSED INSERTION!\n\nReason: " + error.message + "\nDetails: " + error.details + "\nCode: " + error.code);
+        // டேட்டாபேஸ்ல நிஜமாவே ஏதாச்சும் தப்பு நடந்தா மட்டும் அலர்ட் காட்டும் bro
+        alert("🚨 DATABASE REFUSED INSERTION!\n\nReason: " + error.message);
     } else {
-        alert("Boom! 🔥 Meta Access Token completely captured and secured!");
-        
-        // இங்கேயும் பாதுகாப்பிற்காக automation.html பக்கத்திற்கே ரீடைரக்ட் வைக்கிறோம் bro!
+        // 🎯 எந்த தொந்தரவான அலர்ட்டும் இல்லாமல் நேரடியாக automation.html பக்கத்திற்கு கூட்டிட்டு போயிடும்!
         window.location.href = "automation.html";
     }
 }
 
-// 🚀 ஃபேஸ்புக் லாகின் பட்டன் - ஆட்டோமேட்டிக்காக டேப் க்ளோஸ் ஆகும் புது பிக்ஸ்!
+// ஃபேஸ்புக் லாகின் பட்டன் - ஆட்டோமேட்டிக்காக டேப் க்ளோஸ் ஆகும் புது பிக்ஸ்!
 window.loginWithFacebook = async function() {
     const supabase = window.supabaseClient;
     if (!supabase) return alert("Supabase not loaded!");
@@ -62,7 +56,7 @@ window.loginWithFacebook = async function() {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'facebook',
         options: {
-            // 🎯 இங்கதான் நம்ம புது `oauth-callback.html` லிங்க்கை குடுத்திருக்கோம் bro!
+            // லாகின் முடிஞ்சதும் நம்ம கிரியேட் பண்ணிய குட்டி 'oauth-callback.html' ஃபைலுக்குப் போகும் bro
             redirectTo: 'https://abdhaal.github.io/Meta-Automation/oauth-callback.html',
             scopes: 'pages_manage_metadata,pages_messaging'
         }
