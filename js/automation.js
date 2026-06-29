@@ -1,19 +1,22 @@
 // js/automation.js - Ultimate Crash Proof Fix
 
-// 1. உங்க உண்மையான Supabase URL & Anon Key-ஐ இங்கே போடுங்க bro
 const SUPABASE_URL = "https://jrjigvhzkicmgketrmbr.supabase.co"; 
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impyamlndmh6a2ljbWdrZXRybWJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzYyODEsImV4cCI6MjA5ODE1MjI4MX0.4FHwDGywcybt_tu52Dv5e2YEgCN3uKbKI0l844RA3Og";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impyamlndmh6a2ljbWdrZXRybWJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzYyODEsImV4cCI6MjA5ODE1MjI4MX0.4FHwDGywcybt_tu52Dv5e2YEgCN3uKbKI0l844RA3Og"; // 👈 இங்க மாத்துங்க bro
 
-let supabase;
+let supabaseClientInstance;
+
 try {
-    // CDN வழியா வர்ற சுபாபேஸ் கிளைன்ட்டை உருவாக்குறோம் bro
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    if (window.supabase && window.supabase.createClient) {
+        supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } else {
+        alert("❌ Supabase SDK library not loaded correctly! Check script tag in HTML.");
+    }
 } catch (e) {
-    console.error("Supabase Initialization Failed:", e);
+    alert("❌ Error initializing Supabase: " + e.message);
 }
 
-// --- உங்க ஒரிஜினல் கமெண்ட் ஆட்டோமேஷன் பங்க்ஷன் ---
-function saveAutomation(){
+// பழைய கமெண்ட் செட்டிங்ஸ் பங்க்ஷன்
+window.saveAutomation = function(){
     const postid = document.getElementById("postid").value;
     const message = document.getElementById("message").value;
     const status = document.getElementById("status").checked;
@@ -25,36 +28,24 @@ function saveAutomation(){
     alert("Settings Saved");
 }
 
-// --- Messenger Bot & WhatsApp செட்டிங்ஸ் சேவ் பங்க்ஷன் ---
+// 🎯 புது சேவ் பாட் செட்டிங்ஸ் பங்க்ஷன்
 window.saveBotSettings = async function() {
-    console.log("Save Button Clicked!"); // பிரௌசர் கான்சோல்ல செக் பண்ண bro
-    
-    // HTML எலிமெண்ட்கள் இருக்கான்னு செக் பண்றோம்
-    const replyTextEl = document.getElementById('replyText');
-    const whatsappUrlEl = document.getElementById('whatsappUrl');
+    // பட்டன் கிளிக் ஆன உடனே இந்த மெசேஜ் ஸ்க்ரீன்ல கண்டிப்பா வரும் bro!
+    alert("Save Button Clicked! Checking database connectivity..."); 
+
+    const replyText = document.getElementById('replyText').value;
+    const whatsappUrl = document.getElementById('whatsappUrl').value;
     const statusMsg = document.getElementById('botStatusMessage');
 
-    if (!replyTextEl || !whatsappUrlEl) {
-        alert("❌ Error: HTML input fields ('replyText' or 'whatsappUrl') are missing in html file!");
-        return;
-    }
+    if (statusMsg) statusMsg.innerText = "⏳ Saving to Supabase Database...";
 
-    const replyText = replyTextEl.value;
-    const whatsappUrl = whatsappUrlEl.value;
-
-    if (statusMsg) {
-        statusMsg.innerText = "⏳ Synching with Supabase...";
-        statusMsg.style.color = "orange";
-    }
-
-    if (!supabase) {
-        alert("❌ Supabase SDK not loaded properly! Check html script tag.");
+    if (!supabaseClientInstance) {
+        alert("❌ Supabase is not configured properly. Cannot save!");
         return;
     }
 
     try {
-        // சுபாபேஸ் 'bot_config' டேபிளில் டேட்டாவை அப்லோட் பண்றோம் bro
-        const { error } = await supabase
+        const { error } = await supabaseClientInstance
             .from('bot_config')
             .upsert({ 
                 id: 1, 
@@ -63,44 +54,38 @@ window.saveBotSettings = async function() {
             });
 
         if (error) {
-            console.error("Supabase Database Error:", error);
-            if (statusMsg) statusMsg.innerText = "❌ Database Error: " + error.message;
-            alert("❌ Database Refused: " + error.message);
+            if (statusMsg) statusMsg.innerText = "❌ Database Refused Insert!";
+            alert("🚨 DATABASE ERROR: " + error.message);
         } else {
-            if (statusMsg) statusMsg.innerText = "⚡ Settings synced successfully with Facebook Bot! 🔥";
-            if (statusMsg) statusMsg.style.color = "green";
-            alert("✅ Bot Settings Saved Successfully!");
+            if (statusMsg) {
+                statusMsg.innerText = "⚡ Settings synced successfully with Facebook Bot! 🔥";
+                statusMsg.style.color = "green";
+            }
+            alert("✅ Bot Settings Saved Successfully in Supabase!"); 
         }
     } catch (catchErr) {
-        console.error("Crash Error caught:", catchErr);
-        alert("❌ Crash Error: " + catchErr.message);
+        alert("❌ Code Crashed: " + catchErr.message);
     }
 }
 
-// பக்கத்தை திறந்தவுடன் டேட்டாபேஸ்ல இருக்குற பழைய மெசேஜை லோடு செய்ய
+// பழைய டேட்டாவை லோடு பண்ண
 document.addEventListener('DOMContentLoaded', async () => {
-    const checkSupabase = setInterval(async () => {
-        if (supabase) {
-            clearInterval(checkSupabase);
-            const replyTextInput = document.getElementById('replyText');
-            const whatsappUrlInput = document.getElementById('whatsappUrl');
-            
-            if (!replyTextInput || !whatsappUrlInput) return;
-
+    setTimeout(async () => {
+        if (supabaseClientInstance) {
             try {
-                const { data, error } = await supabase
+                const { data } = await supabaseClientInstance
                     .from('bot_config')
                     .select('*')
                     .eq('id', 1)
                     .single();
 
                 if (data) {
-                    replyTextInput.value = data.reply_text || '';
-                    whatsappUrlInput.value = data.whatsapp_url || '';
+                    document.getElementById('replyText').value = data.reply_text || '';
+                    document.getElementById('whatsappUrl').value = data.whatsapp_url || '';
                 }
             } catch (err) {
-                console.error("Error loading settings:", err);
+                console.log("No default settings found yet.");
             }
         }
-    }, 100);
+    }, 500);
 });
