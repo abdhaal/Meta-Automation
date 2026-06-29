@@ -1,12 +1,13 @@
-// 1. சுபாபேஸ் கனெக்ஷனை செட் பண்றோம் bro
-// Replit-ல் இருக்கும் உங்க ஒரிஜினல் Supabase URL & Anon Key-ஐ இங்கே மாத்திக்கோங்க
-const SUPABASE_URL = "https://jrjigvhzkicmgketrmbr.supabase.co"; 
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impyamlndmh6a2ljbWdrZXRybWJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzYyODEsImV4cCI6MjA5ODE";
+// js/automation.js - Full Correct Code
 
-// சுபாபேஸ் கிளைன்ட்டை உருவாக்குறோம் (html-ல் SDK சேர்த்திருக்கோம் bro)
+// 1. உங்க ஒரிஜினல் Supabase URL & Anon Key-ஐ இங்கே போடுங்க bro
+const SUPABASE_URL = "https://jrjigvhzkicmgketrmbr.supabase.co"; 
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impyamlndmh6a2ljbWdrZXRybWJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzYyODEsImV4cCI6MjA5ODE1MjI4MX0.4FHwDGywcybt_tu52Dv5e2YEgCN3uKbKI0l844RA3Og";
+
+// சுபாபேஸ் கிளைன்ட்டை உருவாக்குறோம்
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// --- உங்க ஒரிஜினல் கமெண்ட் ஆட்டோமேஷன் பங்க்ஷன் (அப்படியே இருக்கு bro) ---
+// --- உங்க ஒரிஜினல் கமெண்ட் ஆட்டோமேஷன் பங்க்ஷன் ---
 function saveAutomation(){
     const postid = document.getElementById("postid").value;
     const message = document.getElementById("message").value;
@@ -19,59 +20,61 @@ function saveAutomation(){
     alert("Settings Saved");
 }
 
-// --- புதுசு: ஃபேஸ்புக் பாட் & வாட்ஸ்அப் லிங்க் செட்டிங்ஸ் லாஜிக் ---
-document.addEventListener('DOMContentLoaded', () => {
-    const replyTextInput = document.getElementById('replyText');
-    const whatsappUrlInput = document.getElementById('whatsappUrl');
-    const saveBtn = document.getElementById('saveBotSettingsBtn');
+// --- புதுசு: Messenger Bot & WhatsApp செட்டிங்ஸை சேவ் பண்ற மாஸ் பங்க்ஷன் ---
+window.saveBotSettings = async function() {
+    const replyText = document.getElementById('replyText').value;
+    const whatsappUrl = document.getElementById('whatsappUrl').value;
     const statusMsg = document.getElementById('botStatusMessage');
 
-    // A. அட்மின் பேஜ் லோடானதும் சுபாபேஸ்ஸில் இருக்கும் தற்போதைய மெசேஜை பாக்ஸில் காட்ட
-    async function loadBotSettings() {
-        if (!replyTextInput || !whatsappUrlInput) return;
-        
-        try {
-            const { data, error } = await supabase
-                .from('bot_config')
-                .select('*')
-                .eq('id', 1)
-                .single();
+    if (statusMsg) {
+        statusMsg.innerText = "⏳ Saving to Supabase database...";
+        statusMsg.style.color = "orange";
+    }
 
-            if (data) {
-                replyTextInput.value = data.reply_text || '';
-                whatsappUrlInput.value = data.whatsapp_url || '';
-            }
-        } catch (err) {
-            console.error("Error loading settings from Supabase:", err);
+    try {
+        // சுபாபேஸ் 'bot_config' டேபிளில் டேட்டாவை அப்லோட் பண்றோம் bro
+        const { error } = await supabase
+            .from('bot_config')
+            .upsert({ 
+                id: 1, 
+                reply_text: replyText, 
+                whatsapp_url: whatsappUrl 
+            });
+
+        if (error) {
+            console.error("Supabase Error:", error);
+            if (statusMsg) statusMsg.innerText = "❌ Database Error: " + error.message;
+            alert("❌ Error saving to Supabase: " + error.message);
+        } else {
+            if (statusMsg) statusMsg.innerText = "⚡ Settings synced successfully with Facebook Bot! 🔥";
+            if (statusMsg) statusMsg.style.color = "green";
+            alert("✅ Bot Settings Saved Successfully!"); // இப்போ கண்டிப்பா இந்த அலர்ட் வரும் bro!
         }
+    } catch (catchErr) {
+        console.error("Catch Error:", catchErr);
+        alert("❌ Crash Error: " + catchErr.message);
     }
+}
 
-    // B. சேவ் பட்டன் அழுத்தும்போது சுபாபேஸ் 'bot_config' டேபிளில் சேவ் செய்ய
-    if (saveBtn) {
-        saveBtn.addEventListener('click', async () => {
-            statusMsg.innerText = "Saving to database...";
-            statusMsg.style.color = "#ffa500"; // Orange color for loading
+// பக்கத்தை திறந்தவுடன் டேட்டாபேஸ்ல இருக்குற பழைய மெசேஜை பாக்ஸ்க்குள்ள காட்ட
+document.addEventListener('DOMContentLoaded', async () => {
+    const replyTextInput = document.getElementById('replyText');
+    const whatsappUrlInput = document.getElementById('whatsappUrl');
+    
+    if (!replyTextInput || !whatsappUrlInput) return;
 
-            const { error } = await supabase
-                .from('bot_config')
-                .upsert({ 
-                    id: 1, 
-                    reply_text: replyTextInput.value, 
-                    whatsapp_url: whatsappUrlInput.value 
-                });
+    try {
+        const { data, error } = await supabase
+            .from('bot_config')
+            .select('*')
+            .eq('id', 1)
+            .single();
 
-            if (error) {
-                console.error("Error updating settings:", error);
-                statusMsg.innerText = "❌ Error saving settings! Check Console.";
-                statusMsg.style.color = "red";
-            } else {
-                statusMsg.innerText = "⚡ Settings synced successfully with Facebook Bot! 🔥";
-                statusMsg.style.color = "green";
-            }
-        });
+        if (data) {
+            replyTextInput.value = data.reply_text || '';
+            whatsappUrlInput.value = data.whatsapp_url || '';
+        }
+    } catch (err) {
+        console.error("Error loading automatic settings:", err);
     }
-
-    // பக்கத்தை திறந்தவுடன் டேட்டாவை லோடு செய்யும் பங்க்ஷனை ரன் பண்றோம்
-    loadBotSettings();
 });
-              
