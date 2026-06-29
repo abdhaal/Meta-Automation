@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connecting...</title>
+</head>
+<body>
+    <h2 style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+        Authentication Successful! Closing window...
+    </h2>
+
+    <script>
+        // 1. இந்த டேப் ஓபன் ஆன உடனே மெயின் விண்டோவுக்கு சிக்னல் அனுப்புது
+        if (window.opener) {
+            window.opener.location.reload(); // மெயின் டேஷ்போர்டை ரிஃப்ரெஷ் பண்ணும்
+        }
+        
+        // 2. இந்த டேபை தானாவே ஆட்டோமேட்டிக்கா க்ளோஸ் பண்ணிடும்!
+        setTimeout(() => {
+            window.close();
+        }, 1000); // 1 செகண்ட்ல க்ளோஸ் ஆயிடும் bro
+    </script>
+</body>
+</html>
