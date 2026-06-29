@@ -45,8 +45,31 @@
             </button>
         </div>
 
-        <br>
+        <br><br>
 
-        <div class="card">
-            <h3>Messenger Bot
-                
+        <div style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 20px;">
+            <h3 style="margin-top: 0; color: #333;">Messenger Bot & WhatsApp Channel Settings</h3>
+            <br>
+            
+            <label style="font-weight: bold; color: #555; display: block; margin-bottom: 5px;">Auto Reply Message</label>
+            <textarea id="replyText" rows="4" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;" placeholder="Enter the text that goes before the WhatsApp link..."></textarea>
+            <br><br>
+
+            <label style="font-weight: bold; color: #555; display: block; margin-bottom: 5px;">WhatsApp Channel URL</label>
+            <input type="text" id="whatsappUrl" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;" placeholder="https://whatsapp.com/channel/...">
+            <br><br>
+
+            <button id="saveBotSettingsBtn" onclick="saveBotSettings()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                Save Bot Settings
+            </button>
+            <br><br>
+            
+            <p id="botStatusMessage" style="font-weight: bold; margin: 0; min-height: 20px;"></p>
+        </div>
+    </div>
+
+    <script src="js/automation.js"></script>
+
+</body>
+
+</html>
