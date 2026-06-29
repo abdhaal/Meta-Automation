@@ -49,12 +49,12 @@ window.saveMetaTokensToDB = async function(accessToken, fbUserId) {
     } else {
         alert("Boom! 🔥 Meta Access Token completely captured and secured!");
         
-        // 🎯 இங்கதான் மேஜிக் bro! டோக்கன் சேவ் ஆனதும் "Please close this tab" வராம நேரா 'automation.html'-க்கு கூட்டிட்டு போயிடும்!
+        // இங்கேயும் பாதுகாப்பிற்காக automation.html பக்கத்திற்கே ரீடைரக்ட் வைக்கிறோம் bro!
         window.location.href = "automation.html";
     }
 }
 
-// 🚀 புதுசு: ஒருவேளை உங்க ஃபேஸ்புக் லாகின் பட்டன் இந்த ஃபைலை கவனிச்சா, அதுக்கான ரீடைரக்ட் பிக்ஸ்!
+// 🚀 ஃபேஸ்புக் லாகின் பட்டன் - ஆட்டோமேட்டிக்காக டேப் க்ளோஸ் ஆகும் புது பிக்ஸ்!
 window.loginWithFacebook = async function() {
     const supabase = window.supabaseClient;
     if (!supabase) return alert("Supabase not loaded!");
@@ -62,8 +62,8 @@ window.loginWithFacebook = async function() {
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'facebook',
         options: {
-            // லாகின் முடிஞ்சதும் உங்க GitHub Pages அட்ரஸுக்கே திரும்பி வர வைக்கும்!
-            redirectTo: 'https://abdhaal.github.io/Meta-Automation/automation.html',
+            // 🎯 இங்கதான் நம்ம புது `oauth-callback.html` லிங்க்கை குடுத்திருக்கோம் bro!
+            redirectTo: 'https://abdhaal.github.io/Meta-Automation/oauth-callback.html',
             scopes: 'pages_manage_metadata,pages_messaging'
         }
     });
@@ -76,4 +76,3 @@ async function logout() {
 }
 
 window.addEventListener("DOMContentLoaded", () => { initDashboard(); });
-
