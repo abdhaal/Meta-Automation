@@ -1,7 +1,7 @@
-// js/automation.js - Ultimate Crash Proof Fix
+// js/automation.js - Live Comment & Messenger Bot Engine
 
 const SUPABASE_URL = "https://jrjigvhzkicmgketrmbr.supabase.co"; 
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impyamlndmh6a2ljbWdrZXRybWJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzYyODEsImV4cCI6MjA5ODE1MjI4MX0.4FHwDGywcybt_tu52Dv5e2YEgCN3uKbKI0l844RA3Og"; // 👈 இங்க மாத்துங்க bro
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impyamlndmh6a2ljbWdrZXRybWJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzYyODEsImV4cCI6MjA5ODE1MjI4MX0.4FHwDGywcybt_tu52Dv5e2YEgCN3uKbKI0l844RA3Og"; // 👈 உங்க ANON KEY-ஐ போடுங்க bro
 
 let supabaseClientInstance;
 
@@ -9,29 +9,48 @@ try {
     if (window.supabase && window.supabase.createClient) {
         supabaseClientInstance = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     } else {
-        alert("❌ Supabase SDK library not loaded correctly! Check script tag in HTML.");
+        alert("❌ Supabase SDK library not loaded correctly! Check HTML.");
     }
 } catch (e) {
     alert("❌ Error initializing Supabase: " + e.message);
 }
 
-// பழைய கமெண்ட் செட்டிங்ஸ் பங்க்ஷன்
-window.saveAutomation = function(){
-    const postid = document.getElementById("postid").value;
+// 🎯 1. புது கமெண்ட் ஆட்டோமேஷன் சேவ் பங்க்ஷன் (Supabase உடன்)
+window.saveAutomation = async function() {
+    alert("Saving Comment DM Settings...");
+
+    const postId = document.getElementById("postid").value;
     const message = document.getElementById("message").value;
     const status = document.getElementById("status").checked;
 
-    localStorage.setItem("postid", postid);
-    localStorage.setItem("message", message);
-    localStorage.setItem("status", status);
+    if (!supabaseClientInstance) {
+        alert("❌ Supabase is not configured properly. Cannot save!");
+        return;
+    }
 
-    alert("Settings Saved");
+    try {
+        const { error } = await supabaseClientInstance
+            .from('comment_config')
+            .upsert({ 
+                id: 1, 
+                post_id: postId, 
+                dm_message: message, 
+                is_enabled: status 
+            });
+
+        if (error) {
+            alert("🚨 DATABASE ERROR: " + error.message);
+        } else {
+            alert("✅ Comment DM Settings Saved in Supabase! 🔥"); 
+        }
+    } catch (catchErr) {
+        alert("❌ Code Crashed: " + catchErr.message);
+    }
 }
 
-// 🎯 புது சேவ் பாட் செட்டிங்ஸ் பங்க்ஷன்
+// 🎯 2. மெசஞ்சர் பாட் & வாட்ஸ்அப் செட்டிங்ஸ் சேவ் பங்க்ஷன்
 window.saveBotSettings = async function() {
-    // பட்டன் கிளிக் ஆன உடனே இந்த மெசேஜ் ஸ்க்ரீன்ல கண்டிப்பா வரும் bro!
-    alert("Save Button Clicked! Checking database connectivity..."); 
+    alert("Saving Messenger Bot Settings..."); 
 
     const replyText = document.getElementById('replyText').value;
     const whatsappUrl = document.getElementById('whatsappUrl').value;
@@ -68,20 +87,26 @@ window.saveBotSettings = async function() {
     }
 }
 
-// பழைய டேட்டாவை லோடு பண்ண
+// பக்கத்தை திறந்தவுடன் 'bot_config' மற்றும் 'comment_config' இரண்டையும் லோடு செய்ய
 document.addEventListener('DOMContentLoaded', async () => {
     setTimeout(async () => {
         if (supabaseClientInstance) {
             try {
-                const { data } = await supabaseClientInstance
-                    .from('bot_config')
-                    .select('*')
-                    .eq('id', 1)
-                    .single();
+                // லோடு பாட் செட்டிங்ஸ்
+                const { data: botData } = await supabaseClientInstance
+                    .from('bot_config').select('*').eq('id', 1).single();
+                if (botData) {
+                    document.getElementById('replyText').value = botData.reply_text || '';
+                    document.getElementById('whatsappUrl').value = botData.whatsapp_url || '';
+                }
 
-                if (data) {
-                    document.getElementById('replyText').value = data.reply_text || '';
-                    document.getElementById('whatsappUrl').value = data.whatsapp_url || '';
+                // லோடு கமெண்ட் செட்டிங்ஸ்
+                const { data: commentData } = await supabaseClientInstance
+                    .from('comment_config').select('*').eq('id', 1).single();
+                if (commentData) {
+                    document.getElementById('postid').value = commentData.post_id || '';
+                    document.getElementById('message').value = commentData.dm_message || '';
+                    document.getElementById('status').checked = commentData.is_enabled ?? true;
                 }
             } catch (err) {
                 console.log("No default settings found yet.");
