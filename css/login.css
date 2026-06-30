@@ -1,215 +1,168 @@
-/* ==========================================================================
-   🔑 IMA AUTOMATION - EXCLUSIVE LOGIN PAGE STYLES (ReplyRush Style)
-   ========================================================================== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
-
-/* Basic Page Resets */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #ffffff;
-    color: #111827;
-    overflow-x: hidden;
-}
-
-a {
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-/* Page Container Wrapper */
-.login-wrapper {
-    min-height: 100vh;
+    background: #f7f7f7;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 40px 24px;
-    background-color: #ffffff;
-    width: 100%;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-.login-card {
+.login-box {
+    background: #fff;
     width: 100%;
     max-width: 420px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.1);
+}
+
+.login-box h1 {
     text-align: center;
-}
-
-/* Logo Branded Section */
-.login-logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 24px;
-}
-
-.login-logo-text {
-    font-size: 26px;
-    font-weight: 900;
-    color: #111827;
-    letter-spacing: -0.05em;
-}
-
-.login-logo-icon {
-    color: #2563eb;
-    font-size: 24px;
-}
-
-/* Central Typography */
-.login-heading {
-    font-size: 16px;
-    font-weight: 700;
-    color: #111827;
-    line-height: 1.5;
-    margin-bottom: 32px;
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Input Form Controls */
-.form-group {
-    text-align: left;
+    font-size: 34px;
     margin-bottom: 20px;
+}
+
+.login-box h2 {
+    text-align: center;
+    font-size: 16px; /* ReplyRush மாதிரி நீட்டா மாத்தியாச்சு */
+    margin-bottom: 30px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #111827;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 13px;
+    color: #4b5563;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #1565ff;
+}
+
+.password-box {
     position: relative;
 }
 
-.form-label {
+.password-box i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: gray;
+    font-size: 16px;
+}
+
+.forgot {
     display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: #4b5563;
-    margin-bottom: 8px;
-}
-
-.form-input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 14px;
-    color: #111827;
-    outline: none;
-    transition: border-color 0.2s;
-    background-color: #ffffff;
-}
-
-.form-input:focus {
-    border-color: #2563eb;
-}
-
-/* Password Eye Overlay Trigger */
-.password-box{
-position:relative;
-}
-
-.password-box i{
-position:absolute;
-right:15px;
-top:50%;
-transform:translateY(-50%);
-cursor:pointer;
-color:gray;
-}
-
-.forgot-password-link {
-    display: block;
-    text-align: left;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #1565ff;
     font-size: 13px;
-    color: #2563eb;
     font-weight: 500;
-    margin-top: -8px;
-    margin-bottom: 24px;
 }
 
-/* Black Brand Submit Button */
-.btn-submit {
+.login-btn {
+    margin-top: 25px;
     width: 100%;
-    background-color: #000000;
-    color: #ffffff;
-    padding: 14px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 14px;
+    padding: 15px;
+    background: #000;
+    color: #fff;
     border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: background-color 0.2s;
-    margin-bottom: 20px;
 }
 
-.btn-submit:hover {
-    background-color: #1f2937;
+.login-btn:hover {
+    background: #1f2937;
 }
 
-.signup-text {
-    font-size: 13px;
+.signup {
+    text-align: center;
+    margin: 25px 0;
+    font-size: 14px;
     color: #4b5563;
-    margin-bottom: 24px;
 }
 
-.signup-text a {
-    color: #2563eb;
-    font-weight: 600;
+.signup a {
+    color: #1565ff;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-/* Clean UI Line Divider */
-.divider-container {
+.divider {
     display: flex;
     align-items: center;
-    text-align: center;
-    color: #9ca3af;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    margin-bottom: 24px;
+    margin: 25px 0;
 }
 
-.divider-container::before, .divider-container::after {
-    content: '';
+.divider::before,
+.divider::after {
+    content: "";
     flex: 1;
-    border-bottom: 1px solid #e5e7eb;
+    height: 1px;
+    background: #ddd;
 }
 
-.divider-container:not(:empty)::before { margin-right: .75em; }
-.divider-container:not(:empty)::after { margin-left: .75em; }
-
-/* Social Login Button Rows */
-.social-btn-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+.divider span {
+    margin: 0 15px;
+    color: #777;
+    font-size: 12px;
+    font-weight: 600;
 }
 
-.btn-social {
+.social {
     width: 100%;
     padding: 12px;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    background-color: #ffffff;
-    color: #4b5563;
-    font-size: 13px;
+    margin-bottom: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 14px;
     font-weight: 600;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    color: #4b5563;
 }
 
-.btn-social:hover {
-    background-color: #f9fafb;
+.social:hover {
+    background: #f9fafb;
 }
 
-.icon-google { color: #ea4335; }
-.icon-facebook { color: #1877f2; }
-.icon-apple { color: #000000; }
+.social i {
+    margin-right: 10px;
+    font-size: 16px;
+}
 
+.google i { color: #db4437; }
+.facebook i { color: #1877f2; }
+.apple i { color: #000; }
