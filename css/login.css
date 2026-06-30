@@ -103,13 +103,17 @@ a {
 }
 
 /* Password Eye Overlay Trigger */
-.password-toggle {
-    position: absolute;
-    right: 16px;
-    top: 38px;
-    color: #9ca3af;
-    cursor: pointer;
-    font-size: 14px;
+.password-box{
+position:relative;
+}
+
+.password-box i{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+color:gray;
 }
 
 .forgot-password-link {
