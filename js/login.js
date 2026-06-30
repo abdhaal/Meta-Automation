@@ -1,65 +1,76 @@
-// 1. YOUR SUPABASE CONFIGURATION
+/**
+ * IMA Automation - Login & Sign Up Flow with Supabase Auth (Fixed Version)
+ */
+
+// 1. YOUR SUPABASE CONFIGURATION (உங்க Supabase URL & Key-ஐ இங்க போடுங்க bro)
 const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL"; 
 const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 2. Password Visibility Toggle (இப்போ 100% அன்-ஹைடு வேலை செய்யும் bro)
-window.togglePassword = function() {
-    const passwordField = document.getElementById('passwordField');
-    const toggleIcon = document.querySelector('.password-toggle');
-    
-    if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-        toggleIcon.classList.remove('fa-eye-slash');
-        toggleIcon.classList.add('fa-eye');
-    } else {
-        passwordField.type = 'password';
-        toggleIcon.classList.remove('fa-eye');
-        toggleIcon.classList.add('fa-eye-slash');
-    }
-}
-
-// 3. Simple Auth Toggle and Form Submit
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.querySelector('form');
-    const submitBtn = document.querySelector('.btn-submit');
-    const loginHeading = document.querySelector('.login-heading');
-    const toggleTextContainer = document.querySelector('.signup-text');
+    // DOM Elements
+    const authForm = document.getElementById('authForm');
+    const emailField = document.getElementById('emailField');
+    const passwordField = document.getElementById('passwordField');
+    const eyeToggleIcon = document.getElementById('eyeToggleIcon');
+    const loginHeading = document.getElementById('loginHeading');
+    const submitBtn = document.getElementById('submitBtn');
+    const toggleTextParagraph = document.getElementById('toggleTextParagraph');
+    const forgotLink = document.getElementById('forgotLink');
 
-    let isSignUpMode = false;
+    let isSignUpMode = false; // ஆரம்பத்தில் Login மோடில் இருக்கும்
 
-    // கீழ இருக்குற லிங்க்கை கிளிக் பண்ணா Sign Up / Sign In மாறும்
-    toggleTextContainer.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A') {
-            e.preventDefault();
-            isSignUpMode = !isSignUpMode;
-            
-            if (isSignUpMode) {
-                loginHeading.innerText = "Create your account to get started with IMA Automation!";
-                submitBtn.innerHTML = `Sign Up <i class="fa-solid fa-arrow-right"></i>`;
-                toggleTextContainer.innerHTML = `Already have an account? <a href="#">Sign In</a>`;
+    // 2. PASSWORD UNHIDE FIX (கண் ஐகான் வேலை செய்ய)
+    if (eyeToggleIcon && passwordField) {
+        eyeToggleIcon.addEventListener('click', () => {
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeToggleIcon.classList.remove('fa-eye-slash');
+                eyeToggleIcon.classList.add('fa-eye');
             } else {
-                loginHeading.innerText = "Welcome back! Please Sign in to Your Account.";
-                submitBtn.innerHTML = `Sign In <i class="fa-solid fa-arrow-right"></i>`;
-                toggleTextContainer.innerHTML = `Don't have an account? <a href="#">Sign Up</a>`;
+                passwordField.type = 'password';
+                eyeToggleIcon.classList.remove('fa-eye');
+                eyeToggleIcon.classList.add('fa-eye-slash');
             }
-        }
-    });
+        });
+    }
 
-    // Form Submission Logic
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
+    // 3. SIGN UP / SIGN IN TOGGLE FIX (லிங்க் கிளிக் பண்ணா மோடு மாற)
+    if (toggleTextParagraph) {
+        toggleTextParagraph.addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'toggleAuthMode') {
+                e.preventDefault();
+                isSignUpMode = !isSignUpMode;
+
+                if (isSignUpMode) {
+                    loginHeading.innerText = "Create your account to get started with IMA Automation!";
+                    submitBtn.innerHTML = `Sign Up <i class="fa-solid fa-arrow-right"></i>`;
+                    toggleTextParagraph.innerHTML = `Already have an account? <a href="#" id="toggleAuthMode">Sign In</a>`;
+                    if (forgotLink) forgotLink.style.display = 'none'; // சைன்-அப்பில் பார்ஜெட் பாஸ்வேர்ட் தேவையில்லை
+                } else {
+                    loginHeading.innerText = "Welcome back! Please Sign in to Your Account.";
+                    submitBtn.innerHTML = `Sign In <i class="fa-solid fa-arrow-right"></i>`;
+                    toggleTextParagraph.innerHTML = `Don't have an account? <a href="#" id="toggleAuthMode">Sign Up</a>`;
+                    if (forgotLink) forgotLink.style.display = 'block';
+                }
+            }
+        });
+    }
+
+    // 4. FORM SUBMISSION (Sign Up / Sign In Logic with Supabase Auth)
+    if (authForm) {
+        authForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const emailInput = loginForm.querySelector('input[type="email"]').value;
-            const passwordInput = document.getElementById('passwordField').value;
+            const emailInput = emailField.value;
+            const passwordInput = passwordField.value;
 
             submitBtn.innerText = "Processing...";
             submitBtn.disabled = true;
 
             if (isSignUpMode) {
-                // புது அக்கவுண்ட் கிரியேட் பண்ணுதல்
+                // புது அக்கவுண்ட் கிரியேட் பண்ணும் ஃப்ளோ
                 const { data, error } = await supabase.auth.signUp({
                     email: emailInput,
                     password: passwordInput
@@ -68,30 +79,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (error) {
                     alert("Sign Up Error: " + error.message);
                 } else {
-                    alert("Sign Up Successful! Now entering Sign In Mode. Please log in.");
-                    // சைன் அப் ஆனதும் லாகின் மோடுக்கு மாத்துறோம்
+                    alert("Sign Up Successful! Switching to Sign In mode. Please log in.");
+                    // அக்கவுண்ட் கிரியேட் ஆனதும் லாகின் மோடுக்கு தானா மாறிடும்
                     isSignUpMode = false;
                     loginHeading.innerText = "Welcome back! Please Sign in to Your Account.";
                     submitBtn.innerHTML = `Sign In <i class="fa-solid fa-arrow-right"></i>`;
-                    toggleTextContainer.innerHTML = `Don't have an account? <a href="#">Sign Up</a>`;
+                    toggleTextParagraph.innerHTML = `Don't have an account? <a href="#" id="toggleAuthMode">Sign Up</a>`;
+                    if (forgotLink) forgotLink.style.display = 'block';
+                    passwordField.value = ""; // பாஸ்வேர்ட் ஃபீல்டை கிளியர் செய்கிறோம்
                 }
             } else {
-                // டேட்டாபேஸ்ல செக் பண்ணி லாகின் பண்ணுதல்
+                // டேட்டாபேஸ்ல மெயில் & பாஸ்வேர்ட் செக் பண்ணி லாகின் பண்ணும் ஃப்ளோ
                 const { data, error } = await supabase.auth.signInWithPassword({
                     email: emailInput,
                     password: passwordInput
                 });
 
                 if (error) {
-                    alert("Login Failed: " + error.message + " (அக்கவுண்ட் இல்லைனா முதல்ல Sign Up லிங்க்கை கிளிக் பண்ணுங்க bro!)");
+                    alert("Login Failed: " + error.message + " \n\n(அக்கவுண்ட் இல்லைனா முதல்ல Sign Up பண்ணுங்க bro!)");
                 } else {
-                    // லாகின் சக்சஸ்னா மட்டும் தான் டேஷ்போர்டுக்கு போகும்!
+                    console.log("Logged in successfully!");
+                    // அக்கவுண்ட் கரெக்ட்டா இருந்தா மட்டும் டேஷ்போர்டுக்குப் போகும்
                     window.location.href = 'automation.html';
                 }
             }
 
-            submitBtn.innerText = isSignUpMode ? "Sign Up" : "Sign In";
+            if (!isSignUpMode && submitBtn) {
+                submitBtn.innerHTML = `Sign In <i class="fa-solid fa-arrow-right"></i>`;
+            } else if (submitBtn) {
+                submitBtn.innerHTML = `Sign Up <i class="fa-solid fa-arrow-right"></i>`;
+            }
             submitBtn.disabled = false;
         });
     }
+
+    // 5. SOCIAL BUTTONS CLICK EVENTS
+    const googleBtn = document.getElementById('googleBtn');
+    const facebookBtn = document.getElementById('facebookBtn');
+    const appleBtn = document.getElementById('appleBtn');
+
+    if (googleBtn) googleBtn.addEventListener('click', (e) => { e.preventDefault(); alert('Google Auth Triggered!'); });
+    if (facebookBtn) facebookBtn.addEventListener('click', (e) => { e.preventDefault(); alert('Meta Facebook Auth Triggered!'); });
+    if (appleBtn) appleBtn.addEventListener('click', (e) => { e.preventDefault(); alert('Apple ID Auth Triggered!'); });
 });
