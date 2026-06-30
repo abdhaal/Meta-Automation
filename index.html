@@ -1,34 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Meta Automation</title>
-
-<link rel="stylesheet" href="css/style.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMA Automation - Instagram & Facebook DM Automation</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #111827; }
+    </style>
 </head>
 <body>
 
-<div class="login-box">
+    <!-- 1. NAVBAR -->
+    <nav class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between border-b border-gray-100">
+        <div class="flex items-center space-x-2">
+            <div class="bg-blue-600 p-2 rounded-lg text-white">
+                <i class="fa-solid fa-bolt text-lg"></i>
+            </div>
+            <span class="text-xl font-black tracking-tight text-gray-900">IMA Automation</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8 font-medium text-gray-600">
+            <a href="#" class="hover:text-blue-600 transition">Features</a>
+            <a href="#" class="hover:text-blue-600 transition">Pricing</a>
+            <a href="#" class="hover:text-blue-600 transition">Contact</a>
+        </div>
+        <div>
+            <a href="automation.html" class="bg-black text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-800 transition shadow-sm">
+                Get Started Free
+            </a>
+        </div>
+    </nav>
 
-<h1>Meta Automation</h1>
+    <!-- 2. HERO SECTION -->
+    <section class="max-w-5xl mx-auto px-6 pt-16 pb-20 text-center space-y-8">
+        <h1 class="text-4xl md:text-6xl font-black tracking-tight text-gray-900 max-w-3xl mx-auto leading-tight">
+            Instagram & Facebook DM Automation Made Easy
+        </h1>
+        <p class="text-xl font-medium bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent italic">
+            That Grows You Faster
+        </p>
+        <p class="text-gray-500 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
+            Engage your followers by automatically replying to comments with DMs. Save time, increase sales, and stay connected 24/7.
+        </p>
+        
+        <div class="flex justify-center pt-4">
+            <a href="automation.html" class="bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-700 transition shadow-lg shadow-blue-600/20 flex items-center gap-3 group">
+                Let's Start 
+                <i class="fa-solid fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
+            </a>
+        </div>
 
-<p>Facebook & Instagram Auto DM Tool</p>
+        <!-- Mockup Placeholder Image/Box -->
+        <div class="pt-12 max-w-4xl mx-auto">
+            <div class="bg-gradient-to-b from-gray-50 to-gray-100 p-4 rounded-3xl border border-gray-200 shadow-2xl">
+                <div class="bg-white rounded-2xl h-64 md:h-96 flex items-center justify-center border border-gray-200/60 overflow-hidden relative">
+                    <div class="absolute inset-0 bg-radial from-blue-500/5 to-transparent"></div>
+                    <div class="text-center space-y-3 z-10 p-6">
+                        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto text-blue-600 border border-blue-100">
+                            <i class="fa-regular fa-comments text-3xl"></i>
+                        </div>
+                        <p class="text-sm font-bold text-gray-400 uppercase tracking-widest">Dashboard Preview</p>
+                        <p class="text-xs text-gray-400 max-w-xs mx-auto">Your smart system automatically sending links to users on Facebook Reels and Instagram Posts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<button class="facebook" onclick="facebookLogin()">
-Continue with Facebook
-</button>
+    <!-- 3. OUR STORY IN NUMBERS SECTION -->
+    <section class="bg-gray-50 py-20 border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 mb-12">Our Story in Numbers</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- Stat 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-2">
+                    <h3 class="text-3xl font-black text-gray-900">200M+</h3>
+                    <p class="text-sm font-bold text-blue-600 uppercase tracking-wider">AutoDM</p>
+                    <p class="text-xs text-gray-400">Sent securely to global users.</p>
+                </div>
+                <!-- Stat 2 -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-2">
+                    <h3 class="text-3xl font-black text-gray-900">65M+</h3>
+                    <p class="text-sm font-bold text-indigo-600 uppercase tracking-wider">Link Clicks</p>
+                    <p class="text-xs text-gray-400">Generated from automated messages.</p>
+                </div>
+                <!-- Stat 3 -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-2">
+                    <h3 class="text-3xl font-black text-gray-900">150M+</h3>
+                    <p class="text-sm font-bold text-purple-600 uppercase tracking-wider">Comment Reply</p>
+                    <p class="text-xs text-gray-400">Processed automatically in real-time.</p>
+                </div>
+                <!-- Stat 4 -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-200/80 shadow-xs space-y-2">
+                    <h3 class="text-3xl font-black text-gray-900">41K+</h3>
+                    <p class="text-sm font-bold text-emerald-600 uppercase tracking-wider">Creators & Brands</p>
+                    <p class="text-xs text-gray-400">Trusting our software every day.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<button class="instagram" onclick="instagramLogin()">
-Continue with Instagram
-</button>
+    <!-- 4. CORE FEATURES SECTION -->
+    <section class="max-w-7xl mx-auto px-6 py-20 text-center space-y-16">
+        <div class="space-y-4">
+            <h2 class="text-3xl md:text-4xl font-black tracking-tight text-gray-900">
+                Convert Your Audience Into Loyal Customers
+            </h2>
+            <p class="text-gray-500 max-w-xl mx-auto text-sm md:text-base">
+                Powerful tools built specifically to scale your organic social media growth and drive direct revenue.
+            </p>
+        </div>
 
-</div>
-<script src="js/supabase.js"></script>
-<script src="js/app.js"></script>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            <!-- Feature 1 -->
+            <div class="border border-gray-200 rounded-3xl p-8 space-y-4 hover:shadow-xl transition-shadow bg-white">
+                <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 border border-blue-100">
+                    <i class="fa-solid fa-comment-dots text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900">Comment Automation</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Convert comments into active buyer chats. Automatically send instant product links or files right to their messenger when they drop a word on your Reels.
+                </p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="border border-gray-200 rounded-3xl p-8 space-y-4 hover:shadow-xl transition-shadow bg-white">
+                <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 border border-purple-100">
+                    <i class="fa-solid fa-circle-dot text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900">Stories Automation</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Turn daily story mentions and interactions into hot traffic leads. Capture user data instantly when someone tags you or replies directly to your active stories.
+                </p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="border border-gray-200 rounded-3xl p-8 space-y-4 hover:shadow-xl transition-shadow bg-white">
+                <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 border border-emerald-100">
+                    <i class="fa-solid fa-bullseye text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900">Lead Generation</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                    Capture names, emails, and contact details seamlessly directly inside the chat flow. Clean analytics dashboard helps you turn cold social traffic into hot closed deals.
+                </p>
+            </div>
+        </div>
+    </section>
 
 </body>
 </html>
