@@ -22,18 +22,22 @@ document.addEventListener('DOMContentLoaded', () => {
     let isSignUpMode = false; // ஆரம்பத்தில் Login மோடில் இருக்கும்
 
     // 2. PASSWORD UNHIDE FIX (கண் ஐகான் வேலை செய்ய)
-    console.log("JS Loaded");
+    const password = document.getElementById("password");
+const toggle = document.getElementById("togglePassword");
 
-eyeToggleIcon.addEventListener("click", () => {
-    console.log("Eye Clicked");
-    console.log(passwordField.type);
+toggle.addEventListener("click",()=>{
 
-    passwordField.type =
-        passwordField.type === "password"
-        ? "text"
-        : "password";
+if(password.type==="password"){
+password.type="text";
+toggle.classList.remove("fa-eye-slash");
+toggle.classList.add("fa-eye");
+}else{
+password.type="password";
+toggle.classList.remove("fa-eye");
+toggle.classList.add("fa-eye-slash");
+}
+
 });
-
     // 3. SIGN UP / SIGN IN TOGGLE FIX (லிங்க் கிளிக் பண்ணா மோடு மாற)
     if (toggleTextParagraph) {
         toggleTextParagraph.addEventListener('click', (e) => {
