@@ -3,63 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMA Automation - Sign In</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>IMA Automation Login</title>
+    <!-- Connecting External Login CSS -->
     <link rel="stylesheet" href="css/login.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
 
-    <div class="login-wrapper">
-        <div class="login-card">
-            
-            <div class="login-logo">
-                <i class="fa-solid fa-bolt login-logo-icon"></i>
-                <span class="login-logo-text">IMA Automation</span>
-            </div>
-            
-            <h2 class="login-heading" id="loginHeading">
-                Welcome back! Please Sign in to Your Account.
-            </h2>
-            
-            <form id="authForm">
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="emailField" placeholder="Enter your email" class="form-input" required>
-                </div>
-                <div class="password-box">
-        <input type="password" id="password" placeholder="Password">
-        <i class="fa-solid fa-eye-slash" id="togglePassword"></i>
-                </div>
-                
-                <a href="#" class="forgot-password-link" id="forgotLink">Forgot Password?</a>
-                
-                <button type="submit" class="btn-submit" id="submitBtn">
-                    Sign In <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </form>
-            
-            <p class="signup-text" id="toggleTextParagraph">
-                Don't have an account? <a href="#" id="toggleAuthMode">Sign Up</a>
-            </p>
-            
-            <div class="divider-container">OR</div>
-            
-            <div class="social-btn-group">
-                <button class="btn-social" id="googleBtn">
-                    <i class="fa-brands fa-google icon-google"></i> Login with Google
-                </button>
-                <button class="btn-social" id="facebookBtn">
-                    <i class="fa-brands fa-facebook icon-facebook"></i> Login with Facebook
-                </button>
-                <button class="btn-social" id="appleBtn">
-                    <i class="fa-brands fa-apple icon-apple"></i> Login with Apple
-                </button>
-            </div>
-            
+<div class="login-box">
+    <h1>⚡ IMA Automation</h1>
+    <!-- Heading with an ID to change dynamically -->
+    <h2 id="authHeading">Welcome back! Please Sign in to Your Account.</h2>
+
+    <form id="authForm">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <div class="password-box">
+            <input type="password" id="password" placeholder="Password" required>
+            <i class="fa-solid fa-eye-slash" id="togglePassword"></i>
         </div>
+
+        <a href="#" class="forgot" id="forgotLink">Forgot Password?</a>
+
+        <!-- Submit Button with an ID -->
+        <button type="submit" class="login-btn" id="submitBtn">
+            Sign In <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </form>
+
+    <!-- Toggle Action Container -->
+    <p class="signup" id="toggleTextParagraph">
+        Don't have an account? <a href="#" id="toggleAuthMode">Sign Up</a>
+    </p>
+
+    <div class="divider">
+        <span>OR</span>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/login.js"></script>
+    <button class="social google">
+        <i class="fab fa-google"></i> Login with Google
+    </button>
+    <button class="social facebook">
+        <i class="fab fa-facebook"></i> Login with Facebook
+    </button>
+    <button class="social apple">
+        <i class="fab fa-apple"></i> Login with Apple
+    </button>
+</div>
+
+<!-- Connecting External Script File -->
+<script src="login.js"></script>
 </body>
 </html>
