@@ -1,4 +1,4 @@
-/* IMA Automation - Pure Premium Full Custom CSS Framework */
+/* IMA Automation - Pure Premium Custom CSS Framework for Homepage */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
 
 /* GLOBAL RESETS */
@@ -24,13 +24,13 @@ a {
 /* LAYOUT GRIDS (DESKTOP MODE - SIDE BY SIDE) */
 .grid-3 { 
     display: grid; 
-    grid-template-cols: repeat(3, 1fr) !important; /* Forces 3 Cards Side-by-Side */
+    grid-template-cols: repeat(3, 1fr) !important; 
     gap: 24px; 
     width: 100%;
 }
 .grid-4 { 
     display: grid; 
-    grid-template-cols: repeat(4, 1fr) !important; /* Forces 4 Features Side-by-Side */
+    grid-template-cols: repeat(4, 1fr) !important; 
     gap: 24px; 
     width: 100%;
 }
@@ -54,7 +54,7 @@ a {
     padding: 0 24px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Distinct left, center, right separation */
+    justify-content: space-between;
 }
 .logo-area { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-start; }
 .logo-icon { background-color: #2563eb; color: #ffffff; padding: 10px; border-radius: 8px; }
@@ -145,8 +145,8 @@ a {
 .faq-container { display: flex; flex-direction: column; gap: 16px; margin-top: 40px; }
 .faq-item { border: 1px solid #e5e7eb; border-radius: 16px; padding: 20px; background-color: #ffffff; }
 .faq-question { font-weight: 700; color: #111827; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-.faq-question i { color: #9ca3af; font-size: 12px; }
-.faq-answer { color: #6b7280; font-size: 14px; margin-top: 8px; line-height: 1.6; text-align: left; }
+.faq-question i { color: #9ca3af; font-size: 14px; transition: transform 0.3s; }
+.faq-answer { color: #6b7280; font-size: 14px; margin-top: 8px; line-height: 1.6; text-align: left; display: none; /* JS handle பண்ணும் */ }
 
 /* FOOTER */
 .footer { background-color: #111827; color: #9ca3af; font-size: 12px; padding: 48px 24px; text-align: center; }
@@ -158,18 +158,15 @@ a {
 
 /* 📱 STABLE RESPONSIVE MEDIA QUERIES FOR MOBILE MODE ONLY */
 @media (max-width: 768px) {
-    /* Mobile Navbar Adjustments */
     .navbar { height: auto; padding: 16px 0; position: relative; }
     .nav-container { flex-direction: column; gap: 14px; text-align: center; padding: 0 16px; }
     .logo-area, .nav-btn-area { justify-content: center; width: 100%; flex: none; }
     .nav-links { justify-content: center; flex-wrap: wrap; gap: 16px; width: 100%; margin: 8px 0; flex: none; }
     .nav-links a { margin: 0; font-size: 14px; }
     
-    /* Forces single column list on Mobile */
     .grid-3 { grid-template-cols: 1fr !important; gap: 16px; }
     .grid-4 { grid-template-cols: 1fr !important; gap: 16px; }
     
-    /* Mobile Typography and card heights */
     .hero-section { padding-top: 40px; }
     .hero-title { font-size: 32px !important; }
     .hero-subtitle { font-size: 18px; }
@@ -178,5 +175,11 @@ a {
     
     .preview-card, .feature-card, .stat-card { height: auto; padding: 20px; }
     .partner-chips { flex-direction: column; gap: 10px; align-items: center; }
-                    }
-       
+}
+
+/* KEYFRAME ANIMATIONS */
+.animate-bounce-slow { animation: bounce 3s infinite; }
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+                }
