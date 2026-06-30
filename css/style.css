@@ -27,13 +27,12 @@ a {
 .flex-col { display: flex; flex-direction: column; }
 .justify-center { justify-content: center; }
 
-/* NAVBAR (DESKTOP DEFAULT - SPREAD APART) */
+/* NAVBAR (SCROLL PANNA MELA POGUM - NO STICKY) */
 .navbar {
     border-bottom: 1px solid #f3f4f6;
     background-color: #ffffff;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    position: relative; /* Fixed/Sticky கிடையாது, ஸ்க்ரோல் பண்ணா மேல போயிடும் */
+    width: 100%;
     height: 80px;
     display: flex;
     align-items: center;
@@ -45,12 +44,12 @@ a {
     padding: 0 24px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* லோகோ இடப்பக்கம், பட்டன் வலப்பக்கம் பிரிக்கும் */
+    justify-content: space-between; /* Desktop la thனித்தனியா பிரியும் */
 }
 .logo-area { display: flex; align-items: center; gap: 8px; }
 .logo-icon { background-color: #2563eb; color: #ffffff; padding: 10px; border-radius: 8px; }
 .logo-text { font-size: 20px; font-weight: 900; tracking-style: -0.05em; color: #111827; }
-.nav-links { display: flex; gap: 8px; }
+.nav-links { display: flex; align-items: center; justify-content: center; }
 .nav-links a { color: #4b5563; font-weight: 500; margin: 0 16px; font-size: 15px; }
 .nav-links a:hover { color: #2563eb; }
 
@@ -74,7 +73,7 @@ a {
 .btn-lg:hover .icon-arrow { transform: translateX(4px); }
 
 /* HERO SECTION */
-.hero-section { max-width: 800px; margin: 0 auto; padding: 64px 24px 48px 24px; text-align: center; }
+.hero-section { max-width: 800px; margin: 0 auto; padding: 80px 24px 48px 24px; text-align: center; }
 .hero-title { font-size: 54px; font-weight: 900; color: #111827; letter-spacing: -0.05em; line-height: 1.1; margin: 0 auto; }
 .hero-subtitle { font-size: 22px; font-weight: 500; font-style: italic; background: linear-gradient(to right, #2563eb, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 16px 0; }
 .hero-description { color: #6b7280; max-width: 650px; margin: 0 auto 32px auto; font-size: 18px; line-height: 1.6; }
@@ -144,31 +143,59 @@ a {
 .footer-links a { color: #6b7280; }
 .footer-links a:hover { color: #ffffff; }
 
-/* 📱 STRICT RESPONSIVE MEDIA QUERIES FOR MOBILE ONLY */
-@media (max-width: 768px) {
-    /* Navbar Adjustment */
-    .navbar { height: auto; padding: 16px 0; }
-    .nav-container { flex-direction: column; gap: 16px; text-align: center; }
-    .nav-links { justify-content: center; flex-wrap: wrap; margin: 8px 0; gap: 8px; }
-    .nav-links a { margin: 0 8px; font-size: 14px; }
-    
-    /* Layout Grids Break to Single Column */
-    .grid-3, .grid-4 { grid-template-cols: 1fr !important; gap: 16px; }
-    
-    /* Typography scale down for mobile screens */
-    .hero-title { font-size: 34px !important; }
-    .hero-subtitle { font-size: 18px; }
-    .hero-description { font-size: 15px; }
-    .section-title { font-size: 26px !important; }
-    
-    /* Box padding adjustments */
-    .preview-card, .feature-card, .stat-card { height: auto; padding: 20px; }
-    .partner-chips { flex-direction: column; gap: 10px; align-items: center; }
-}
 
-/* KEYFRAME ANIMATIONS */
-.animate-bounce-slow { animation: bounce 3s infinite; }
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-                  }
+/* 📱 PURE RESPONSIVE MEDIA QUERIES FOR MOBILE & DESKTOP INDEPENDENCE */
+@media (max-width: 768px) {
+    /* 1. Mobile Navbar Layout (Clean Premium Flow) */
+    .navbar { 
+        height: auto; 
+        padding: 16px 0; 
+        position: relative; /* Mobile-lum scroll panna mela poidum */
+    }
+    .nav-container { 
+        flex-direction: column; 
+        gap: 14px; 
+        text-align: center; 
+        padding: 0 16px;
+    }
+    .logo-area {
+        justify-content: center;
+        width: 100%;
+    }
+    .nav-links { 
+        justify-content: center; 
+        flex-wrap: wrap; 
+        gap: 16px;
+        width: 100%;
+        margin: 4px 0;
+    }
+    .nav-links a { 
+        margin: 0; 
+        font-size: 14px; 
+    }
+    
+    /* 2. Mobile Grid Force to 1-Column */
+    .grid-3, .grid-4 { 
+        grid-template-cols: 1fr !important; 
+        gap: 16px; 
+    }
+    
+    /* 3. Mobile Typography Scaling */
+    .hero-section { padding-top: 40px; }
+    .hero-title { font-size: 32px !important; }
+    .hero-subtitle { font-size: 18px; }
+    .hero-description { font-size: 15px; margin-bottom: 24px; }
+    .section-title { font-size: 26px !important; margin-bottom: 32px; }
+    
+    /* 4. Card Height Fixes */
+    .preview-card, .feature-card, .stat-card { 
+        height: auto; 
+        padding: 20px; 
+    }
+    .partner-chips { 
+        flex-direction: column; 
+        gap: 10px; 
+        align-items: center; 
+    }
+             }
+            
