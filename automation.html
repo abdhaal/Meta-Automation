@@ -3,68 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto DM</title>
-    <link rel="stylesheet" href="css/dashboard.css">
-    
-    <!-- 🎯 மிக முக்கியம்: சுபாபேஸ் லைப்ரரி ஸ்கிரிப்ட் -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>IMA Automation - Reply Rush Style Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background-color: #0B0F19; color: #F3F4F6; font-family: 'Inter', sans-serif; }
+    </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <h2>Meta Tool</h2>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="automation.html">Auto DM</a>
-        <a href="#">Comments</a>
-        <a href="#">Analytics</a>
-        <a href="#">Settings</a>
+    <div class="flex h-screen overflow-hidden">
+        
+        <aside class="w-64 bg-[#111827] border-r border-gray-800 flex flex-col justify-between">
+            <div>
+                <div class="p-6 border-b border-gray-800 flex items-center space-x-3">
+                    <div class="bg-blue-600 p-2 rounded-lg text-white">
+                        <i class="fa-solid fa-bolt text-xl animate-pulse"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-wider bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">IMA RUSH</span>
+                </div>
+                <nav class="p-4 space-y-2">
+                    <a href="#" class="flex items-center space-x-3 bg-blue-600/10 text-blue-400 px-4 py-3 rounded-xl font-medium transition-all">
+                        <i class="fa-solid fa-chart-pie"></i> <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 text-gray-400 hover:bg-gray-800 hover:text-white px-4 py-3 rounded-xl font-medium transition-all">
+                        <i class="fa-solid fa-robot"></i> <span>Automation Rules</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 text-gray-400 hover:bg-gray-800 hover:text-white px-4 py-3 rounded-xl font-medium transition-all">
+                        <i class="fa-solid fa-link"></i> <span>Connected Pages</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 text-gray-400 hover:bg-gray-800 hover:text-white px-4 py-3 rounded-xl font-medium transition-all">
+                        <i class="fa-solid fa-gear"></i> <span>Settings</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-gray-800 flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-full flex items-center justify-center font-bold text-white shadow-lg">MA</div>
+                <div>
+                    <h4 class="text-sm font-semibold">M. Abdhaal</h4>
+                    <span class="text-xs text-gray-500">Pro Account</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="flex-1 flex flex-col overflow-y-auto bg-[#0B0F19]">
+            
+            <header class="h-20 bg-[#111827]/50 backdrop-blur-md border-b border-gray-800 flex items-center justify-between px-8 sticky top-0 z-10">
+                <h1 class="text-2xl font-bold text-white">Dashboard Overview</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="bg-emerald-500/10 text-emerald-400 text-xs font-semibold px-3 py-1.5 rounded-full border border-emerald-500/20 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span> Live Webhook Active
+                    </span>
+                </div>
+            </header>
+
+            <div class="p-8 space-y-8 max-w-7xl w-full mx-auto">
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-[#111827] border border-gray-800 p-6 rounded-2xl shadow-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400 font-medium">Total Comments Tracked</p>
+                            <h3 class="text-3xl font-bold mt-2">1,248</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 border border-blue-500/20">
+                            <i class="fa-regular fa-comments text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="bg-[#111827] border border-gray-800 p-6 rounded-2xl shadow-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400 font-medium">Successful Auto DMs</p>
+                            <h3 class="text-3xl font-bold mt-2 text-emerald-400">984</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-400 border border-emerald-500/20">
+                            <i class="fa-regular fa-paper-plane text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="bg-[#111827] border border-gray-800 p-6 rounded-2xl shadow-xl flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-400 font-medium">Active Keyword Rules</p>
+                            <h3 class="text-3xl font-bold mt-2 text-purple-400">5 Rules</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-purple-400 border border-purple-500/20">
+                            <i class="fa-solid fa-sliders text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <div class="lg:col-span-1 bg-[#111827] border border-gray-800 rounded-2xl p-6 shadow-xl space-y-6 h-fit">
+                        <div>
+                            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles text-blue-400"></i> Setup Auto Reply Rule
+                            </h2>
+                            <p class="text-xs text-gray-400 mt-1">Configure your Facebook Reel Post ID and custom message triggers.</p>
+                        </div>
+                        
+                        <form class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Facebook Reel Numeric ID</label>
+                                <input type="text" value="122293386314194034" class="w-full bg-[#0B0F19] border border-gray-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 text-gray-300 font-mono">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Trigger Keyword (e.g., Link, Price)</label>
+                                <input type="text" placeholder="Leave empty for ALL comments" class="w-full bg-[#0B0F19] border border-gray-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 text-gray-300">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Auto DM Message</label>
+                                <textarea rows="4" class="w-full bg-[#0B0F19] border border-gray-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-500 text-gray-300" placeholder="Hi! Thanks for your comment. Here is the link..."></textarea>
+                            </div>
+
+                            <button type="button" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20 cursor-pointer">
+                                <i class="fa-solid fa-floppy-disk mr-2"></i> Save Automation Rule
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-2 bg-[#111827] border border-gray-800 rounded-2xl p-6 shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                                        <i class="fa-solid fa-list-check text-emerald-400"></i> Recent Activity Logs
+                                    </h2>
+                                    <p class="text-xs text-gray-400 mt-1">Live tracking of users getting auto-DMs right now.</p>
+                                </div>
+                                <button class="text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 rounded-lg hover:bg-blue-500/20 transition-all cursor-pointer">
+                                    <i class="fa-solid fa-rotate-right mr-1"></i> Refresh
+                                </button>
+                            </div>
+
+                            <div class="overflow-x-auto rounded-xl border border-gray-800">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-[#0B0F19] text-gray-400 text-xs font-semibold uppercase tracking-wider border-b border-gray-800">
+                                            <th class="p-4">User</th>
+                                            <th class="p-4">Commented</th>
+                                            <th class="p-4">Trigger Keyword</th>
+                                            <th class="p-4">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-sm text-gray-300 divide-y divide-gray-800/50">
+                                        <tr>
+                                            <td class="p-4 font-medium flex items-center gap-2">
+                                                <div class="w-6 h-6 rounded-full bg-gray-700 flex items-center justify-center text-[10px] text-white">K</div>
+                                                Kannan Kumar
+                                            </td>
+                                            <td class="p-4 italic text-gray-400">"Super link bro"</td>
+                                            <td class="p-4"><span class="bg-gray-800 px-2 py-1 rounded text-xs font-mono text-gray-300">Any Comment</span></td>
+                                            <td class="p-4"><span class="bg-emerald-500/10 text-emerald-400 text-xs font-medium px-2 py-1 rounded-full border border-emerald-500/20"><i class="fa-solid fa-check mr-1"></i> DM Sent</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-4 font-medium flex items-center gap-2">
+                                                <div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-[10px] text-white">S</div>
+                                                Suresh Kumar
+                                            </td>
+                                            <td class="p-4 italic text-gray-400">"What is the price?"</td>
+                                            <td class="p-4"><span class="bg-purple-500/10 text-purple-400 px-2 py-1 rounded text-xs font-mono border border-purple-500/20">Price</span></td>
+                                            <td class="p-4"><span class="bg-emerald-500/10 text-emerald-400 text-xs font-medium px-2 py-1 rounded-full border border-emerald-500/20"><i class="fa-solid fa-check mr-1"></i> DM Sent</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-4 font-medium flex items-center gap-2">
+                                                <div class="w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center text-[10px] text-white">A</div>
+                                                Anjali Devi
+                                            </td>
+                                            <td class="p-4 italic text-gray-400">"Link please"</td>
+                                            <td class="p-4"><span class="bg-indigo-500/10 text-indigo-400 px-2 py-1 rounded text-xs font-mono border border-indigo-500/20">Link</span></td>
+                                            <td class="p-4"><span class="bg-amber-500/10 text-amber-400 text-xs font-medium px-2 py-1 rounded-full border border-amber-500/20"><i class="fa-solid fa-circle-notch animate-spin mr-1"></i> Processing</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center text-xs text-gray-500 mt-6 pt-4 border-t border-gray-800/50">
+                            Powered by IMA Rush Core API • v2.1.0
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+
     </div>
 
-    <div class="main">
-        <h1>Auto DM Settings</h1>
-
-        <!-- સેક્શન 1: பழைய கார்டு -->
-        <div class="card">
-            <h3>Comment Auto DM (Post-Based)</h3>
-            <label>Facebook / Instagram Post ID</label>
-            <input type="text" id="postid" placeholder="Enter Post ID">
-            <br><br>
-            <label>Auto DM Message</label>
-            <textarea id="message" rows="4" placeholder="Hi 👋 Thanks for your comment!"></textarea>
-            <br><br>
-            <label>
-                <input type="checkbox" id="status"> Enable Auto DM
-            </label>
-            <br><br>
-            <button onclick="saveAutomation()">Save DM Settings</button>
-        </div>
-
-        <br><br>
-
-        <!-- செக்ஷன் 2: மெசஞ்சர் பாட் கார்டு (Inline Styles உடன்) -->
-        <div style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 20px;">
-            <h3 style="margin-top: 0; color: #333;">Messenger Bot & WhatsApp Channel Settings</h3>
-            <br>
-            
-            <label style="font-weight: bold; color: #555; display: block; margin-bottom: 5px;">Auto Reply Message</label>
-            <textarea id="replyText" rows="4" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;" placeholder="Enter the text..."></textarea>
-            <br><br>
-
-            <label style="font-weight: bold; color: #555; display: block; margin-bottom: 5px;">WhatsApp Channel URL</label>
-            <input type="text" id="whatsappUrl" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box;" placeholder="https://whatsapp.com/channel/...">
-            <br><br>
-
-            <!-- 🎯 இங்கதான் ஆன்-கிளிக் மாத்தியாச்சு bro -->
-            <button onclick="window.saveBotSettings()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-                Save Bot Settings
-            </button>
-            <br><br>
-            
-            <p id="botStatusMessage" style="font-weight: bold; margin: 0; min-height: 20px; color: orange;"></p>
-        </div>
-    </div>
-
-    <!-- உங்க ஜாவாஸ்கிரிப்ட் ஃபைல் -->
-    <script src="js/automation.js"></script>
 </body>
 </html>
