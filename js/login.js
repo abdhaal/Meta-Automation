@@ -120,3 +120,66 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+    // ==========================================================================
+    // 🚀 5. SOCIAL BUTTONS REAL-TIME SUPABASE AUTH TRIGGER
+    // ==========================================================================
+    const googleBtn = document.querySelector('.social.google');
+    const facebookBtn = document.querySelector('.social.facebook');
+    const appleBtn = document.querySelector('.social.apple');
+
+    // A. Login with Google
+    if (googleBtn) {
+        googleBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            console.log("Initiating Google OAuth...");
+            
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: window.location.origin + '/automation.html' // லாகின் ஆனதும் டேஷ்போர்டு போகும்
+                }
+            });
+
+            if (error) {
+                alert("Google Login Error: " + error.message + "\n(Note: Supabase Dashboard-ல் Google Provider-ஐ இன்னும் Enable செய்யவில்லை bro!)");
+            }
+        });
+    }
+
+    // B. Login with Facebook
+    if (facebookBtn) {
+        facebookBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            console.log("Initiating Facebook OAuth...");
+            
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'facebook',
+                options: {
+                    redirectTo: window.location.origin + '/automation.html'
+                }
+            });
+
+            if (error) {
+                alert("Facebook Login Error: " + error.message + "\n(Note: Supabase Dashboard-ல் Facebook Provider-ஐ Configure செய்ய வேண்டும் bro!)");
+            }
+        });
+    }
+
+    // C. Login with Apple
+    if (appleBtn) {
+        appleBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            console.log("Initiating Apple OAuth...");
+            
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: 'apple',
+                options: {
+                    redirectTo: window.location.origin + '/automation.html'
+                }
+            });
+
+            if (error) {
+                alert("Apple Login Error: " + error.message + "\n(Note: Apple Developer Keys தேவை bro!)");
+            }
+        });
+    }
