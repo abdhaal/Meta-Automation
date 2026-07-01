@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMA Automation Login</title>
-    <!-- Connecting External Login CSS -->
-    <link rel="stylesheet" href="css/login.css">
-    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
 <div class="login-box">
     <h1>⚡ IMA Automation</h1>
-    <!-- Heading with an ID to change dynamically -->
     <h2 id="authHeading">Welcome back! Please Sign in to Your Account.</h2>
 
     <form id="authForm">
@@ -28,13 +26,11 @@
 
         <a href="#" class="forgot" id="forgotLink">Forgot Password?</a>
 
-        <!-- Submit Button with an ID -->
         <button type="submit" class="login-btn" id="submitBtn">
             Sign In <i class="fa-solid fa-arrow-right"></i>
         </button>
     </form>
 
-    <!-- Toggle Action Container -->
     <p class="signup" id="toggleTextParagraph">
         Don't have an account? <a href="#" id="toggleAuthMode">Sign Up</a>
     </p>
@@ -53,10 +49,154 @@
         <i class="fab fa-apple"></i> Login with Apple
     </button>
 </div>
-    <!-- Supabase JS Library CDN (இது கண்டிப்பா வேணும் bro) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- Connecting External JavaScript File -->
-    <script src="js/login.js"></script>
+
+<script>
+    // 1. YOUR SUPABASE CONFIGURATION (உங்க உண்மையான விபரங்களை இங்க மட்டும் மாத்திக்கோங்க bro)
+    const SUPABASE_URL = "https://jrjigvhzkicmgketrmbr.supabase.co"; 
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impyamlndmh6a2ljbWdrZXRybWJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1NzYyODEsImV4cCI6MjA5ODE1MjI4MX0.4FHwDGywcybt_tu52Dv5e2YEgCN3uKbKI0l844RA3Og"; // உங்க பெரிய Anon Key-ஐ இங்க போடுங்க
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const password = document.getElementById("password");
+        const toggle = document.getElementById("togglePassword");
+        
+        const authForm = document.getElementById("authForm");
+        const emailField = document.getElementById("email");
+        const authHeading = document.getElementById("authHeading");
+        const submitBtn = document.getElementById("submitBtn");
+        const toggleTextParagraph = document.getElementById("toggleTextParagraph");
+        const forgotLink = document.getElementById("forgotLink");
+
+        let isSignUpMode = false; // ஆரம்பத்தில் Sign In மோடு
+
+        // 🔑 PASSWORD UNHIDE TRIGGER (கண் ஐகான் லாஜிக்)
+        if (toggle && password) {
+            toggle.addEventListener("click", () => {
+                if (password.type === "password") {
+                    password.type = "text";
+                    toggle.classList.remove("fa-eye-slash");
+                    toggle.classList.add("fa-eye");
+                } else {
+                    password.type = "password";
+                    toggle.classList.remove("fa-eye");
+                    toggle.classList.add("fa-eye-slash");
+                }
+            });
+        }
+
+        // 📝 SIGN UP / SIGN IN INTERFACE TOGGLE (மோடு மாற்றுதல்)
+        if (toggleTextParagraph) {
+            toggleTextParagraph.addEventListener('click', (e) => {
+                if (e.target && e.target.id === 'toggleAuthMode') {
+                    e.preventDefault();
+                    isSignUpMode = !isSignUpMode;
+
+                    if (isSignUpMode) {
+                        authHeading.innerText = "Create your account to get started with IMA Automation!";
+                        submitBtn.innerHTML = `Sign Up <i class="fa-solid fa-arrow-right"></i>`;
+                        toggleTextParagraph.innerHTML = `Already have an account? <a href="#" id="toggleAuthMode">Sign In</a>`;
+                        if (forgotLink) forgotLink.style.display = 'none';
+                    } else {
+                        authHeading.innerText = "Welcome back! Please Sign in to Your Account.";
+                        submitBtn.innerHTML = `Sign In <i class="fa-solid fa-arrow-right"></i>`;
+                        toggleTextParagraph.innerHTML = `Don't have an account? <a href="#" id="toggleAuthMode">Sign Up</a>`;
+                        if (forgotLink) forgotLink.style.display = 'block';
+                    }
+                }
+            });
+        }
+
+        // 🗄️ EMAIL/PASSWORD FORM SUBMISSION (Sign Up & Sign In)
+        if (authForm) {
+            authForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const emailInput = emailField.value.trim();
+                const passwordInput = password.value.trim();
+
+                submitBtn.innerText = "Processing...";
+                submitBtn.disabled = true;
+
+                if (isSignUpMode) {
+                    // புது அக்கவுண்ட் கிரியேட் பண்ணும் ஃப்ளோ
+                    const { data, error } = await supabase.auth.signUp({
+                        email: emailInput,
+                        password: passwordInput
+                    });
+
+                    if (error) {
+                        alert("Sign Up Error: " + error.message);
+                    } else {
+                        alert("Sign Up Successful! 👍 இப்போ தானா லாகின் மோடுக்கு மாறும், அதே மெயில் வச்சு லாகின் பண்ணுங்க bro!");
+                        isSignUpMode = false;
+                        authHeading.innerText = "Welcome back! Please Sign in to Your Account.";
+                        submitBtn.innerHTML = `Sign In <i class="fa-solid fa-arrow-right"></i>`;
+                        toggleTextParagraph.innerHTML = `Don't have an account? <a href="#" id="toggleAuthMode">Sign Up</a>`;
+                        if (forgotLink) forgotLink.style.display = 'block';
+                        password.value = ""; 
+                    }
+                } else {
+                    // டேட்டாபேஸ்ல செக் பண்ணி லாகின் பண்ணும் ஃப்ளோ
+                    const { data, error } = await supabase.auth.signInWithPassword({
+                        email: emailInput,
+                        password: passwordInput
+                    });
+
+                    if (error) {
+                        alert("Login Failed: " + error.message + " \n\n(அக்கவுண்ட் இல்லைனா முதல்ல கீழே இருக்குற 'Sign Up' கிளிக் பண்ணுங்க bro!)");
+                    } else {
+                        alert("Login Success! 🎉");
+                        window.location.href = 'automation.html'; 
+                    }
+                }
+
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = isSignUpMode ? `Sign Up <i class="fa-solid fa-arrow-right"></i>` : `Sign In <i class="fa-solid fa-arrow-right"></i>`;
+                }
+            });
+        }
+
+        // 🚀 SOCIAL BUTTONS AUTH TRIGGER (Google, Facebook, Apple)
+        const googleBtn = document.querySelector('.social.google');
+        const facebookBtn = document.querySelector('.social.facebook');
+        const appleBtn = document.querySelector('.social.apple');
+
+        if (googleBtn) {
+            googleBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: 'google',
+                    options: { redirectTo: window.location.origin + window.location.pathname.replace('login.html', 'automation.html') }
+                });
+                if (error) alert("Google Login Error: " + error.message);
+            });
+        }
+
+        if (facebookBtn) {
+            facebookBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: 'facebook',
+                    options: { redirectTo: window.location.origin + window.location.pathname.replace('login.html', 'automation.html') }
+                });
+                if (error) alert("Facebook Login Error: " + error.message);
+            });
+        }
+
+        if (appleBtn) {
+            appleBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const { data, error } = await supabase.auth.signInWithOAuth({
+                    provider: 'apple',
+                    options: { redirectTo: window.location.origin + window.location.pathname.replace('login.html', 'automation.html') }
+                });
+                if (error) alert("Apple Login Error: " + error.message);
+            });
+        }
+    });
+</script>
+
 </body>
 </html>
