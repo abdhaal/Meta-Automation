@@ -120,10 +120,28 @@
 
                 if (isSignUpMode) {
                     // புது அக்கவுண்ட் கிரியேட் பண்ணும் ஃப்ளோ
-                    const { data, error } = await supabase.auth.signUp({
-                        email: emailInput,
-                        password: passwordInput
-                    });
+                    try {
+
+    const { data, error } =
+    await supabase.auth.signInWithPassword({
+        email: emailInput,
+        password: passwordInput
+    });
+
+    if(error) throw error;
+
+    alert("Login Success");
+
+    window.location.href="automation.html";
+
+}
+catch(err){
+
+    console.log(err);
+
+    alert(err.message);
+
+}
 
                     if (error) {
                         alert("Sign Up Error: " + error.message);
